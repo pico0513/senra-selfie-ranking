@@ -94,27 +94,42 @@ const selfies = [
   }
 ];
 
+
+/* =========================
+   シャッフル
+========================= */
+
 function shuffle(array) {
   const result = [...array];
 
   for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j =
+      Math.floor(Math.random() * (i + 1));
 
-    [result[i], result[j]] = [
-      result[j],
-      result[i]
-    ];
+    [result[i], result[j]] =
+      [result[j], result[i]];
   }
 
   return result;
 }
 
+
+/* =========================
+   ゲーム状態
+========================= */
+
 let players = shuffle(selfies);
+
 let winners = [];
+
 let matchIndex = 0;
+
 let roundNumber = 1;
+
 let currentA = null;
+
 let currentB = null;
+
 let gameFinished = false;
 
 
@@ -122,20 +137,17 @@ let gameFinished = false;
    進行状況
 ========================= */
 
-// 最初に必要な選択回数
-const totalMatches = selfies.length - 1;
+const totalMatches =
+  selfies.length - 1;
 
-// 今までに終わった選択回数
 let completedMatches = 0;
 
 
 function updateProgress() {
 
-  // 残り回数
   const remainingMatches =
     totalMatches - completedMatches;
 
-  // 進行率
   const progress =
     (completedMatches / totalMatches) * 100;
 
@@ -174,10 +186,38 @@ function showPost(button, selfie) {
 
 
 /* =========================
+   ROUND演出
+========================= */
+
+function showRoundAnimation() {
+
+  round.classList.remove(
+    "round-change"
+  );
+
+  // アニメーションを一度リセット
+  void round.offsetWidth;
+
+  round.classList.add(
+    "round-change"
+  );
+
+  // アニメーション終了後にクラスを削除
+  setTimeout(() => {
+
+    round.classList.remove(
+      "round-change"
+    );
+
+  }, 800);
+}
+
+
+/* =========================
    ラウンド開始
 ========================= */
 
-function startRound() {
+function startRound(isNewRound = false) {
 
   if (players.length === 1) {
 
@@ -187,6 +227,7 @@ function startRound() {
   }
 
   winners = [];
+
   matchIndex = 0;
 
   round.textContent =
@@ -196,6 +237,16 @@ function startRound() {
     "どっちの自撮りが好き？";
 
   choiceB.style.display = "";
+
+  /*
+   * 新しいROUNDなら
+   * ROUND表示をアニメーション
+   */
+  if (isNewRound) {
+
+    showRoundAnimation();
+
+  }
 
   showNextMatch();
 }
@@ -220,13 +271,19 @@ function showNextMatch() {
 
     roundNumber++;
 
-    startRound();
+    /*
+     * 次のROUNDへ
+     */
+    startRound(true);
 
     return;
   }
 
 
-  // 奇数の場合、最後の1人はそのまま次ROUNDへ
+  /*
+   * 奇数の場合、
+   * 最後の1人はそのまま次ROUNDへ
+   */
   if (
     matchIndex === players.length - 1 &&
     players.length % 2 === 1
@@ -278,6 +335,7 @@ function choose(
   if (gameFinished) return;
 
   choiceA.disabled = true;
+
   choiceB.disabled = true;
 
   selectedButton.classList.add(
@@ -296,12 +354,12 @@ function choose(
 
     winners.push(winner);
 
-    // 1回分進む
     completedMatches++;
 
     matchIndex += 2;
 
     choiceA.disabled = false;
+
     choiceB.disabled = false;
 
     updateProgress();
@@ -329,6 +387,7 @@ function finishGame(winner) {
   gameFinished = true;
 
   currentA = winner;
+
   currentB = null;
 
   game.classList.add(
@@ -376,7 +435,8 @@ function finishGame(winner) {
     "none";
 
   document.querySelector(".vs")
-    .style.display = "none";
+    .style.display =
+    "none";
 
 
   const restartButton =
@@ -462,10 +522,12 @@ choiceA.addEventListener(
       currentA &&
       !gameFinished
     ) {
+
       choose(
         currentA,
         choiceA
       );
+
     }
 
   }
@@ -480,10 +542,12 @@ choiceB.addEventListener(
       currentB &&
       !gameFinished
     ) {
+
       choose(
         currentB,
         choiceB
       );
+
     }
 
   }
@@ -495,4 +559,5 @@ choiceB.addEventListener(
 ========================= */
 
 updateProgress();
+
 startRound();
