@@ -7,6 +7,9 @@ const choiceB = document.getElementById("choiceB");
 const message = document.getElementById("message");
 const round = document.getElementById("round");
 
+const game = document.querySelector(".game");
+
+
 // ==================================================
 // 自撮りデータ
 // ==================================================
@@ -99,15 +102,19 @@ const selfies = [
   }
 ];
 
+
 // ==================================================
 // シャッフル
 // ==================================================
 
 function shuffle(array) {
+
   const result = [...array];
 
   for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+
+    const j =
+      Math.floor(Math.random() * (i + 1));
 
     [result[i], result[j]] =
       [result[j], result[i]];
@@ -115,6 +122,7 @@ function shuffle(array) {
 
   return result;
 }
+
 
 // ==================================================
 // ゲーム状態
@@ -132,6 +140,7 @@ let currentA = null;
 let currentB = null;
 
 let gameFinished = false;
+
 
 // ==================================================
 // X投稿を表示
@@ -154,9 +163,12 @@ function showPost(button, selfie) {
     window.twttr &&
     window.twttr.widgets
   ) {
+
     window.twttr.widgets.load(box);
+
   }
 }
+
 
 // ==================================================
 // ラウンド開始
@@ -164,9 +176,10 @@ function showPost(button, selfie) {
 
 function startRound() {
 
-  // 1人ならゲーム終了
   if (players.length === 1) {
+
     finishGame(players[0]);
+
     return;
   }
 
@@ -180,8 +193,11 @@ function startRound() {
   message.textContent =
     "どっちの自撮りが好き？";
 
+  choiceB.style.display = "";
+
   showNextMatch();
 }
+
 
 // ==================================================
 // 次の対戦
@@ -189,22 +205,17 @@ function startRound() {
 
 function showNextMatch() {
 
-  // ------------------------------------------
-  // このラウンドの対戦が全部終わった
-  // ------------------------------------------
-
   if (matchIndex >= players.length) {
 
-    // 勝ち残りを次のラウンドへ
     players = winners;
 
-    // 1人になったら即終了
     if (players.length === 1) {
+
       finishGame(players[0]);
+
       return;
     }
 
-    // 次のラウンド
     roundNumber++;
 
     startRound();
@@ -212,16 +223,16 @@ function showNextMatch() {
     return;
   }
 
-  // ------------------------------------------
-  // 奇数人数なら最後の1人を不戦勝
-  // ------------------------------------------
 
+  // 奇数人数の場合
   if (
     matchIndex === players.length - 1 &&
     players.length % 2 === 1
   ) {
 
-    winners.push(players[matchIndex]);
+    winners.push(
+      players[matchIndex]
+    );
 
     matchIndex++;
 
@@ -230,15 +241,14 @@ function showNextMatch() {
     return;
   }
 
-  // ------------------------------------------
-  // 対戦セット
-  // ------------------------------------------
 
+  // 対戦相手
   currentA =
     players[matchIndex];
 
   currentB =
     players[matchIndex + 1];
+
 
   showPost(
     choiceA,
@@ -251,47 +261,56 @@ function showNextMatch() {
   );
 }
 
+
 // ==================================================
 // 勝者を選ぶ
 // ==================================================
 
 function choose(winner, selectedButton) {
 
-  // ゲーム終了後は何もしない
   if (gameFinished) {
     return;
   }
+
 
   // 二重クリック防止
   choiceA.disabled = true;
   choiceB.disabled = true;
 
+
+  // 選んだカードを黄色くする
   selectedButton.classList.add("selected");
+
 
   message.textContent =
     `✨ ${winner.name} ✨`;
+
 
   setTimeout(() => {
 
     selectedButton.classList.remove("selected");
 
+
+    // 勝者を保存
     winners.push(winner);
 
+
+    // 次の対戦へ
     matchIndex += 2;
+
 
     choiceA.disabled = false;
     choiceB.disabled = false;
 
-    message.textContent =
-      "どっちの自撮りが好き？";
 
     showNextMatch();
 
-  }, 800);
+  }, 900);
 }
 
+
 // ==================================================
-// 優勝
+// 優勝画面
 // ==================================================
 
 function finishGame(winner) {
@@ -301,21 +320,132 @@ function finishGame(winner) {
   currentA = winner;
   currentB = null;
 
+
+  // 優勝用クラス
+  game.classList.add("winner-mode");
+
+
   round.textContent =
     "👑 WINNER 👑";
 
-  message.textContent =
-    `${winner.name} が優勝！`;
 
+  message.textContent =
+    "あなたが選んだ自撮りは……";
+
+
+  // 優勝者を表示
   showPost(
     choiceA,
     winner
   );
 
+
+  // 名前を追加
+  const box =
+    choiceA.querySelector(".post-box");
+
+
+  const name =
+    document.createElement("div");
+
+  name.className =
+    "winner-name";
+
+  name.textContent =
+    `👑 ${winner.name} 👑`;
+
+
+  box.insertBefore(
+    name,
+    box.firstChild
+  );
+
+
+  // VSと右側を非表示
   choiceB.style.display = "none";
 
-  choiceA.disabled = false;
+  document.querySelector(".vs").style.display =
+    "none";
+
+
+  // もう一度遊ぶボタン
+  const restartButton =
+    document.createElement("button");
+
+  restartButton.className =
+    "restart-button";
+
+  restartButton.type =
+    "button";
+
+  restartButton.textContent =
+    "🔄 もう一度遊ぶ";
+
+
+  restartButton.addEventListener(
+    "click",
+    restartGame
+  );
+
+
+  game.appendChild(
+    restartButton
+  );
 }
+
+
+// ==================================================
+// もう一度遊ぶ
+// ==================================================
+
+function restartGame() {
+
+  // 状態をリセット
+  players = shuffle(selfies);
+
+  winners = [];
+
+  matchIndex = 0;
+
+  roundNumber = 1;
+
+  currentA = null;
+
+  currentB = null;
+
+  gameFinished = false;
+
+
+  // 優勝画面を解除
+  game.classList.remove(
+    "winner-mode"
+  );
+
+
+  // 右側を表示
+  choiceB.style.display = "";
+
+
+  // VSを表示
+  document.querySelector(".vs").style.display =
+    "";
+
+
+  // 再スタートボタンを削除
+  const restartButton =
+    document.querySelector(
+      ".restart-button"
+    );
+
+  if (restartButton) {
+    restartButton.remove();
+  }
+
+
+  // ゲーム開始
+  startRound();
+}
+
 
 // ==================================================
 // クリック
@@ -329,14 +459,17 @@ choiceA.addEventListener(
       currentA &&
       !gameFinished
     ) {
+
       choose(
         currentA,
         choiceA
       );
+
     }
 
   }
 );
+
 
 choiceB.addEventListener(
   "click",
@@ -346,14 +479,17 @@ choiceB.addEventListener(
       currentB &&
       !gameFinished
     ) {
+
       choose(
         currentB,
         choiceB
       );
+
     }
 
   }
 );
+
 
 // ==================================================
 // ゲーム開始
