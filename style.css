@@ -101,17 +101,37 @@ h1 {
   cursor: pointer;
 
   transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .choice:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .choice:active {
   transform: scale(0.98);
+}
+
+/* ============================
+   選んだカード
+============================ */
+
+.choice.selected {
+  background: #fff1a8;
+
+  border-color: #f4c542;
+
+  box-shadow:
+    0 0 0 4px rgba(244, 197, 66, 0.25),
+    0 10px 30px rgba(244, 197, 66, 0.35);
+
+  transform: scale(1.02);
 }
 
 /* ============================
@@ -156,6 +176,76 @@ h1 {
 }
 
 /* ============================
+   優勝画面
+============================ */
+
+.winner-mode .round {
+  font-size: 26px;
+}
+
+.winner-mode .message {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+.winner-mode .choice {
+  border-color: #f4c542;
+
+  box-shadow:
+    0 0 0 5px rgba(244, 197, 66, 0.2),
+    0 12px 30px rgba(244, 197, 66, 0.25);
+
+  background: #fffdf2;
+}
+
+/* 優勝者の名前 */
+
+.winner-name {
+  margin: 5px 0 15px;
+
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* もう一度遊ぶ */
+
+.restart-button {
+  display: inline-block;
+
+  margin-top: 20px;
+  padding: 12px 28px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #f4c542;
+  color: #333;
+
+  font-size: 17px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.restart-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 16px rgba(0, 0, 0, 0.16);
+}
+
+.restart-button:active {
+  transform: scale(0.96);
+}
+
+/* ============================
    スマホ
 ============================ */
 
@@ -196,6 +286,10 @@ h1 {
     border-radius: 16px;
   }
 
+  .choice.selected {
+    transform: scale(1.01);
+  }
+
   .post-box > p {
     font-size: 15px;
     margin: 4px 0 10px;
@@ -204,4 +298,21 @@ h1 {
   .post-box blockquote.twitter-tweet {
     max-width: 550px !important;
   }
-} 
+
+  .winner-mode .round {
+    font-size: 22px;
+  }
+
+  .winner-mode .message {
+    font-size: 19px;
+  }
+
+  .winner-name {
+    font-size: 21px;
+  }
+
+  .restart-button {
+    font-size: 16px;
+    padding: 11px 24px;
+  }
+}
