@@ -22,7 +22,7 @@ body {
 
 .game {
   width: 100%;
-  max-width: 1200px;
+  max-width: 700px;
   margin: 0 auto;
   text-align: center;
 }
@@ -59,14 +59,14 @@ h1 {
 }
 
 /* ============================
-   左右の選択肢
+   選択肢
 ============================ */
 
 .choices {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: start;
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   width: 100%;
 }
 
@@ -75,10 +75,9 @@ h1 {
 ============================ */
 
 .vs {
-  align-self: center;
   font-size: 24px;
   font-weight: bold;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 /* ============================
@@ -86,7 +85,10 @@ h1 {
 ============================ */
 
 .choice {
+  display: block;
+
   width: 100%;
+  max-width: 600px;
   min-width: 0;
 
   padding: 14px;
@@ -118,7 +120,6 @@ h1 {
 
 .post-box {
   width: 100%;
-  min-height: 550px;
 
   overflow: visible;
 
@@ -147,10 +148,7 @@ h1 {
   margin: 0 auto !important;
 }
 
-/*
-  Xが生成したiframeが
-  カードの幅いっぱいになるようにする
-*/
+/* Xが生成するiframe */
 
 .post-box iframe {
   width: 100% !important;
@@ -167,6 +165,10 @@ h1 {
     padding: 10px;
   }
 
+  .game {
+    max-width: 600px;
+  }
+
   h1 {
     font-size: 24px;
   }
@@ -175,31 +177,28 @@ h1 {
     font-size: 18px;
   }
 
+  .message {
+    font-size: 16px;
+  }
+
   .choices {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 8px;
   }
 
   .vs {
-    order: 2;
-    padding: 0;
     font-size: 20px;
-  }
-
-  #choiceA {
-    order: 1;
-  }
-
-  #choiceB {
-    order: 3;
+    padding: 3px 0;
   }
 
   .choice {
     padding: 10px;
+    border-width: 2px;
+    border-radius: 16px;
   }
 
-  .post-box {
-    min-height: 500px;
+  .post-box > p {
+    font-size: 15px;
+    margin: 4px 0 10px;
   }
 
   .post-box blockquote.twitter-tweet {
