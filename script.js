@@ -530,8 +530,32 @@ function showRanking() {
   );
 
 
+  let currentRank = 0;
+
+  let previousWins = null;
+
+
   ranking.forEach(
     (selfie, index) => {
+
+      /*
+       * 前の人と勝ち数が違うときだけ
+       * 順位を更新する
+       */
+      if (
+        previousWins === null ||
+        winCounts[selfie.id] !== previousWins
+      ) {
+
+        currentRank =
+          index + 1;
+
+      }
+
+
+      previousWins =
+        winCounts[selfie.id];
+
 
       const item =
         document.createElement("div");
@@ -540,7 +564,11 @@ function showRanking() {
         "ranking-item";
 
 
-      if (index === 0) {
+      /*
+       * 1位のデザイン
+       */
+
+      if (currentRank === 1) {
 
         item.classList.add(
           "ranking-first"
@@ -556,17 +584,17 @@ function showRanking() {
         "ranking-number";
 
 
-      if (index === 0) {
+      if (currentRank === 1) {
 
         rank.textContent =
           "🥇";
 
-      } else if (index === 1) {
+      } else if (currentRank === 2) {
 
         rank.textContent =
           "🥈";
 
-      } else if (index === 2) {
+      } else if (currentRank === 3) {
 
         rank.textContent =
           "🥉";
@@ -574,7 +602,7 @@ function showRanking() {
       } else {
 
         rank.textContent =
-          `${index + 1}`;
+          `${currentRank}`;
 
       }
 
@@ -636,8 +664,8 @@ function showRanking() {
     rankingArea
   );
 }
-
-
+        
+        
 /* =========================
    優勝画面
 ========================= */
