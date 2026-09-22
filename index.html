@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
 
@@ -26,50 +27,68 @@
       ROUND 1
     </p>
 
+    <!-- ゲーム進行ゲージ -->
     <div class="progress-area">
-  <div class="progress-text" id="progressText">
-    優勝まであと 16 回
-  </div>
 
-  <div class="progress-bar">
-    <div
-      id="progressFill"
-      class="progress-fill">
+      <div
+        id="progressText"
+        class="progress-text"
+      >
+        優勝まであと 16 回
+      </div>
+
+      <div class="progress-bar">
+
+        <div
+          id="progressFill"
+          class="progress-fill">
+        </div>
+
+      </div>
+
     </div>
-  </div>
-</div>
 
     <p id="message" class="message">
       どっちの自撮りが好き？
     </p>
 
+
     <div class="choices">
 
-      <!-- 上 -->
+      <!-- 上の自撮り -->
+
       <button
         id="choiceA"
         class="choice"
         type="button"
       >
+
         <div class="post-box"></div>
+
       </button>
+
 
       <div class="vs">
         VS
       </div>
 
-      <!-- 下 -->
+
+      <!-- 下の自撮り -->
+
       <button
         id="choiceB"
         class="choice"
         type="button"
       >
+
         <div class="post-box"></div>
+
       </button>
 
     </div>
 
   </main>
+
 
   <!-- X公式ウィジェット -->
 
@@ -79,7 +98,11 @@
     charset="utf-8">
   </script>
 
+
+  <!-- ゲーム本体 -->
+
   <script src="script.js"></script>
 
 </body>
+
 </html>
