@@ -33,8 +33,12 @@ body {
 
 h1 {
   margin: 10px 0 5px;
+
   font-size: 32px;
   line-height: 1.3;
+  font-weight: 800;
+
+  color: #333;
 }
 
 /* ============================
@@ -42,8 +46,18 @@ h1 {
 ============================ */
 
 .round {
-  margin: 10px 0;
-  font-size: 20px;
+  display: inline-block;
+
+  margin: 12px 0 8px;
+  padding: 5px 18px;
+
+  border-radius: 999px;
+
+  background: #f4c542;
+
+  color: #333;
+
+  font-size: 18px;
   font-weight: bold;
 }
 
@@ -53,7 +67,9 @@ h1 {
 
 .message {
   min-height: 30px;
-  margin: 10px 0;
+
+  margin: 8px 0 18px;
+
   font-size: 18px;
   font-weight: bold;
 }
@@ -65,8 +81,11 @@ h1 {
 .choices {
   display: flex;
   flex-direction: column;
+
   align-items: center;
-  gap: 10px;
+
+  gap: 12px;
+
   width: 100%;
 }
 
@@ -76,8 +95,11 @@ h1 {
 
 .vs {
   font-size: 24px;
-  font-weight: bold;
-  padding: 5px 0;
+  font-weight: 800;
+
+  padding: 2px 0;
+
+  color: #555;
 }
 
 /* ============================
@@ -89,14 +111,13 @@ h1 {
 
   width: 100%;
   max-width: 600px;
-  min-width: 0;
 
   padding: 14px;
 
   border: 3px solid #f4c542;
   border-radius: 20px;
 
-  background: white;
+  background: #fff;
 
   cursor: pointer;
 
@@ -119,13 +140,13 @@ h1 {
 }
 
 /* ============================
-   選んだカード
+   選択したカード
 ============================ */
 
 .choice.selected {
   background: #fff1a8;
 
-  border-color: #f4c542;
+  border-color: #e5ae00;
 
   box-shadow:
     0 0 0 4px rgba(244, 197, 66, 0.25),
@@ -168,8 +189,6 @@ h1 {
   margin: 0 auto !important;
 }
 
-/* Xが生成するiframe */
-
 .post-box iframe {
   width: 100% !important;
   max-width: 550px !important;
@@ -180,39 +199,46 @@ h1 {
 ============================ */
 
 .winner-mode .round {
-  font-size: 26px;
+  background: #f4c542;
+
+  font-size: 22px;
 }
 
 .winner-mode .message {
-  font-size: 22px;
   margin-bottom: 18px;
+
+  font-size: 20px;
 }
 
+/* 優勝カード */
+
 .winner-mode .choice {
-  border-color: #f4c542;
+  border-color: #e5ae00;
+
+  background: #fffdf2;
 
   box-shadow:
     0 0 0 5px rgba(244, 197, 66, 0.2),
     0 12px 30px rgba(244, 197, 66, 0.25);
-
-  background: #fffdf2;
 }
 
-/* 優勝者の名前 */
+/* 優勝者名 */
 
 .winner-name {
   margin: 5px 0 15px;
 
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 800;
 }
 
-/* もう一度遊ぶ */
+/* ============================
+   もう一度遊ぶ
+============================ */
 
 .restart-button {
   display: inline-block;
 
-  margin-top: 20px;
+  margin-top: 22px;
   padding: 12px 28px;
 
   border: none;
@@ -264,11 +290,16 @@ h1 {
   }
 
   .round {
-    font-size: 18px;
+    font-size: 17px;
+
+    margin-top: 10px;
+    padding: 4px 15px;
   }
 
   .message {
     font-size: 16px;
+
+    margin-bottom: 14px;
   }
 
   .choices {
@@ -277,11 +308,11 @@ h1 {
 
   .vs {
     font-size: 20px;
-    padding: 3px 0;
   }
 
   .choice {
     padding: 10px;
+
     border-width: 2px;
     border-radius: 16px;
   }
@@ -292,6 +323,7 @@ h1 {
 
   .post-box > p {
     font-size: 15px;
+
     margin: 4px 0 10px;
   }
 
@@ -300,11 +332,11 @@ h1 {
   }
 
   .winner-mode .round {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .winner-mode .message {
-    font-size: 19px;
+    font-size: 18px;
   }
 
   .winner-name {
@@ -313,6 +345,7 @@ h1 {
 
   .restart-button {
     font-size: 16px;
+
     padding: 11px 24px;
   }
-} 
+}
