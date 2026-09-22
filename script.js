@@ -190,6 +190,7 @@ function startRound() {
   round.textContent =
     `ROUND ${roundNumber}`;
 
+  // ラウンド開始時は必ずこれ
   message.textContent =
     "どっちの自撮りが好き？";
 
@@ -242,7 +243,6 @@ function showNextMatch() {
   }
 
 
-  // 対戦相手
   currentA =
     players[matchIndex];
 
@@ -282,6 +282,7 @@ function choose(winner, selectedButton) {
   selectedButton.classList.add("selected");
 
 
+  // 選んだ直後は名前を表示
   message.textContent =
     `✨ ${winner.name} ✨`;
 
@@ -303,7 +304,16 @@ function choose(winner, selectedButton) {
     choiceB.disabled = false;
 
 
+    // 次の対戦を表示
     showNextMatch();
+
+    // 次の対戦では必ず質問に戻す
+    if (!gameFinished) {
+
+      message.textContent =
+        "どっちの自撮りが好き？";
+
+    }
 
   }, 900);
 }
@@ -321,7 +331,6 @@ function finishGame(winner) {
   currentB = null;
 
 
-  // 優勝用クラス
   game.classList.add("winner-mode");
 
 
@@ -333,14 +342,12 @@ function finishGame(winner) {
     "あなたが選んだ自撮りは……";
 
 
-  // 優勝者を表示
   showPost(
     choiceA,
     winner
   );
 
 
-  // 名前を追加
   const box =
     choiceA.querySelector(".post-box");
 
@@ -361,14 +368,12 @@ function finishGame(winner) {
   );
 
 
-  // VSと右側を非表示
   choiceB.style.display = "none";
 
   document.querySelector(".vs").style.display =
     "none";
 
 
-  // もう一度遊ぶボタン
   const restartButton =
     document.createElement("button");
 
@@ -400,7 +405,6 @@ function finishGame(winner) {
 
 function restartGame() {
 
-  // 状態をリセット
   players = shuffle(selfies);
 
   winners = [];
@@ -416,22 +420,17 @@ function restartGame() {
   gameFinished = false;
 
 
-  // 優勝画面を解除
   game.classList.remove(
     "winner-mode"
   );
 
 
-  // 右側を表示
   choiceB.style.display = "";
 
-
-  // VSを表示
   document.querySelector(".vs").style.display =
     "";
 
 
-  // 再スタートボタンを削除
   const restartButton =
     document.querySelector(
       ".restart-button"
@@ -442,7 +441,6 @@ function restartGame() {
   }
 
 
-  // ゲーム開始
   startRound();
 }
 
