@@ -113,23 +113,21 @@ function shuffle(array) {
 }
 
 // ============================
-// トーナメント準備
+// ゲーム準備
 // ============================
 
-let currentRound = shuffle(selfies);
-
-// 17枚なので、最初に1枚をシードにする
-// 残り16枚を8組にする
-let champion = currentRound[0];
-let remaining = currentRound.slice(1);
+let players = shuffle(selfies);
 
 let winners = [];
-let matchIndex = 0;
 
+let currentA = null;
+let currentB = null;
+
+let matchIndex = 0;
 let roundNumber = 1;
 
 // ============================
-// X投稿表示
+// X投稿を表示
 // ============================
 
 function showPost(button, selfie) {
@@ -149,49 +147,73 @@ function showPost(button, selfie) {
 }
 
 // ============================
-// 次の対戦を表示
+// 次のラウンドを準備
+// ============================
+
+function prepareRound() {
+
+  // 1人になったら優勝
+  if (players.length === 1) {
+
+    round.textContent = "WINNER";
+
+    message.textContent =
+      `👑 ${players[0].name} が優勝！`;
+
+    return;
+  }
+
+  winners = [];
+  matchIndex = 0;
+
+  round.textContent =
+    `ROUND ${roundNumber}`;
+
+  showNextMatch();
+}
+
+// ============================
+// 次の対戦
 // ============================
 
 function showNextMatch() {
 
-  // 現在のラウンドが終わった場合
-  if (matchIndex >= remaining.length) {
+  // 今のラウンドが終わった
+  if (matchIndex >= players.length) {
 
-    // 今ラウンドの勝者＋シードを次のラウンドへ
-    currentRound = [champion, ...winners];
+    players = winners;
 
-    // 1人になったら優勝
-    if (currentRound.length === 1) {
-
-      round.textContent = "WINNER";
-
-      message.textContent =
-        `👑 ${champion.name} が優勝！`;
-
-      return;
-    }
-
-    // 次のラウンド開始
-    champion = currentRound[0];
-    remaining = currentRound.slice(1);
-
-    winners = [];
-    matchIndex = 0;
     roundNumber++;
 
-    round.textContent =
-      `ROUND ${roundNumber}`;
+    prepareRound();
+
+    return;
   }
 
-  // 現在の対戦相手
-  const opponent = remaining[matchIndex];
+  // 奇数人数なら最後の1人はシード
+  if (
+    matchIndex === players.length - 1 &&
+    players.length % 2 === 1
+  ) {
 
-  showPost(choiceA, champion);
-  showPost(choiceB, opponent);
+    winners.push(players[matchIndex]);
+
+    matchIndex++;
+
+    showNextMatch();
+
+    return;
+  }
+
+  currentA = players[matchIndex];
+  currentB = players[matchIndex + 1];
+
+  showPost(choiceA, currentA);
+  showPost(choiceB, currentB);
 }
 
 // ============================
-// 選択処理
+// 勝敗処理
 // ============================
 
 function choose(winner) {
@@ -201,11 +223,9 @@ function choose(winner) {
 
   setTimeout(() => {
 
-    // 勝者を保存
-    champion = winner;
+    winners.push(winner);
 
-    // 今の対戦を次へ
-    matchIndex++;
+    matchIndex += 2;
 
     message.textContent = "";
 
@@ -215,23 +235,19 @@ function choose(winner) {
 }
 
 // ============================
-// 最初の対戦
+// 最初のゲーム開始
 // ============================
 
-round.textContent =
-  `ROUND ${roundNumber}`;
-
-showNextMatch();
+prepareRound();
 
 // ============================
 // クリック
 // ============================
 
 choiceA.addEventListener("click", () => {
-  choose(champion);
+  choose(currentA);
 });
 
 choiceB.addEventListener("click", () => {
-  const opponent = remaining[matchIndex];
-  choose(opponent);
+  choose(currentB);
 });
