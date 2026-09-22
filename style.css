@@ -22,7 +22,7 @@ body {
 
 .game {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   text-align: center;
 }
@@ -66,7 +66,7 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: start;
-  gap: 20px;
+  gap: 24px;
   width: 100%;
 }
 
@@ -88,9 +88,8 @@ h1 {
 .choice {
   width: 100%;
   min-width: 0;
-  min-height: 500px;
 
-  padding: 12px;
+  padding: 14px;
 
   border: 3px solid #f4c542;
   border-radius: 20px;
@@ -119,7 +118,7 @@ h1 {
 
 .post-box {
   width: 100%;
-  min-height: 450px;
+  min-height: 550px;
 
   overflow: visible;
 
@@ -129,16 +128,17 @@ h1 {
 }
 
 /* 自撮り名 */
+
 .post-box > p {
-  margin: 5px 0 10px;
+  margin: 5px 0 12px;
+
   font-size: 16px;
   font-weight: bold;
 }
 
-/*
-  X公式埋め込みがカードの幅に合わせて
-  表示されるようにする
-*/
+/* ============================
+   X公式埋め込み
+============================ */
 
 .post-box blockquote.twitter-tweet {
   width: 100% !important;
@@ -147,9 +147,14 @@ h1 {
   margin: 0 auto !important;
 }
 
-/* Xが生成するiframe */
+/*
+  Xが生成したiframeが
+  カードの幅いっぱいになるようにする
+*/
+
 .post-box iframe {
-  max-width: 100% !important;
+  width: 100% !important;
+  max-width: 550px !important;
 }
 
 /* ============================
@@ -190,10 +195,14 @@ h1 {
   }
 
   .choice {
-    min-height: 450px;
+    padding: 10px;
   }
 
   .post-box {
-    min-height: 400px;
+    min-height: 500px;
+  }
+
+  .post-box blockquote.twitter-tweet {
+    max-width: 550px !important;
   }
 }
