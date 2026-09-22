@@ -30,14 +30,187 @@ body {
 
 
 /* ============================
-   タイトル
+   スタート画面
 ============================ */
 
-h1 {
-  margin: 10px 0 5px;
-  font-size: 32px;
+.start-screen {
+  min-height: 85vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 30px 20px;
+}
+
+
+.start-icon {
+  margin-bottom: 10px;
+
+  font-size: 54px;
+
+  animation: cameraFloat 2.5s ease-in-out infinite;
+}
+
+
+@keyframes cameraFloat {
+
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+.start-screen h1 {
+  margin: 0 0 18px;
+
+  font-size: 38px;
+
   line-height: 1.3;
+
   font-weight: 800;
+
+  color: #333;
+}
+
+
+.start-description {
+  margin: 0 0 12px;
+
+  font-size: 17px;
+
+  line-height: 1.8;
+
+  font-weight: bold;
+
+  color: #555;
+}
+
+
+.start-count {
+  margin: 0 0 30px;
+
+  font-size: 14px;
+
+  color: #888;
+}
+
+
+/* ============================
+   STARTボタン
+============================ */
+
+.start-button {
+  display: inline-block;
+
+  min-width: 210px;
+
+  padding: 15px 40px;
+
+  border: 3px solid #e5ae00;
+
+  border-radius: 999px;
+
+  background: #f4c542;
+
+  color: #333;
+
+  font-size: 22px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 0 #d5a600,
+    0 10px 20px
+    rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+.start-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 0 #d5a600,
+    0 14px 24px
+    rgba(0, 0, 0, 0.15);
+}
+
+
+.start-button:active {
+  transform: translateY(4px);
+
+  box-shadow:
+    0 3px 0 #d5a600,
+    0 5px 10px
+    rgba(0, 0, 0, 0.1);
+}
+
+
+/* ============================
+   ゲーム画面
+============================ */
+
+.game-screen {
+  display: none;
+}
+
+
+.game-screen.active {
+  display: block;
+
+  animation: gameAppear 0.5s ease;
+}
+
+
+@keyframes gameAppear {
+
+  0% {
+    opacity: 0;
+
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* ============================
+   ゲームタイトル
+============================ */
+
+.game-screen h1 {
+  margin: 10px 0 5px;
+
+  font-size: 32px;
+
+  line-height: 1.3;
+
+  font-weight: 800;
+
   color: #333;
 }
 
@@ -50,14 +223,17 @@ h1 {
   display: inline-block;
 
   margin: 12px 0 8px;
+
   padding: 5px 18px;
 
   border-radius: 999px;
 
   background: #f4c542;
+
   color: #333;
 
   font-size: 18px;
+
   font-weight: bold;
 
   transition:
@@ -74,15 +250,18 @@ h1 {
   animation: roundChange 0.8s ease;
 }
 
+
 @keyframes roundChange {
 
   0% {
     transform: scale(1);
+
     opacity: 0.4;
   }
 
   30% {
     transform: scale(1.35);
+
     opacity: 1;
   }
 
@@ -92,6 +271,7 @@ h1 {
 
   100% {
     transform: scale(1);
+
     opacity: 1;
   }
 }
@@ -103,6 +283,7 @@ h1 {
 
 .progress-area {
   width: 100%;
+
   max-width: 500px;
 
   margin: 8px auto 18px;
@@ -124,6 +305,7 @@ h1 {
   position: relative;
 
   width: 100%;
+
   height: 14px;
 
   overflow: hidden;
@@ -142,6 +324,7 @@ h1 {
   position: relative;
 
   width: 0%;
+
   height: 100%;
 
   border-radius: 999px;
@@ -169,9 +352,11 @@ h1 {
   position: absolute;
 
   top: 0;
+
   right: 0;
 
   width: 35px;
+
   height: 100%;
 
   background:
@@ -242,6 +427,7 @@ h1 {
   display: block;
 
   width: 100%;
+
   max-width: 600px;
 
   padding: 14px;
@@ -302,6 +488,7 @@ h1 {
 
 .choice.win-animation {
   animation: winnerPop 0.9s ease;
+
   z-index: 5;
 }
 
@@ -338,6 +525,7 @@ h1 {
   position: absolute;
 
   top: 50%;
+
   left: 50%;
 
   z-index: 10;
@@ -366,7 +554,8 @@ h1 {
 
   pointer-events: none;
 
-  animation: winLabel 0.9s ease forwards;
+  animation:
+    winLabel 0.9s ease forwards;
 }
 
 
@@ -566,7 +755,45 @@ h1 {
   }
 
 
-  h1 {
+  .start-screen {
+    min-height: 90vh;
+
+    padding: 20px 10px;
+  }
+
+
+  .start-icon {
+    font-size: 46px;
+  }
+
+
+  .start-screen h1 {
+    font-size: 30px;
+
+    margin-bottom: 15px;
+  }
+
+
+  .start-description {
+    font-size: 15px;
+  }
+
+
+  .start-count {
+    margin-bottom: 25px;
+  }
+
+
+  .start-button {
+    min-width: 190px;
+
+    padding: 13px 35px;
+
+    font-size: 20px;
+  }
+
+
+  .game-screen h1 {
     font-size: 24px;
   }
 
