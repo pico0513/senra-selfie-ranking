@@ -2,51 +2,54 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>センラさんの好きな自撮り選手権</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>センラさん自撮り選手権</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <main class="container">
+  <main class="game">
 
-    <h1>センラさんの<br>好きな自撮り選手権</h1>
+    <h1>センラさん<br>自撮り選手権</h1>
 
-    <p class="description">
-      どっちの自撮りが好き？<br>
-      直感で選んでね 💛
+    <p id="round" class="round">
+      ROUND 1
     </p>
 
-    <div class="progress">
-      <span id="round">ROUND 1</span>
-    </div>
+    <p id="message" class="message"></p>
 
-    <div class="battle">
+    <div class="choices">
 
-      <button class="choice" id="choiceA">
-        <div class="post-box">
-          <p>自撮り A</p>
-          <span>ここにXの投稿が入ります</span>
-        </div>
+      <!-- 左 -->
+      <button id="choiceA" class="choice" type="button">
+        <div class="post-box"></div>
       </button>
 
       <div class="vs">VS</div>
 
-      <button class="choice" id="choiceB">
-        <div class="post-box">
-          <p>自撮り B</p>
-          <span>ここにXの投稿が入ります</span>
-        </div>
+      <!-- 右 -->
+      <button id="choiceB" class="choice" type="button">
+        <div class="post-box"></div>
       </button>
 
     </div>
 
-    <p id="message"></p>
-
   </main>
 
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <!-- X公式ウィジェット -->
+  <script
+    async
+    src="https://platform.twitter.com/widgets.js"
+    charset="utf-8">
+  </script>
+
   <script src="script.js"></script>
 
 </body>
