@@ -18,74 +18,126 @@
 
   <main class="game">
 
-    <h1>
-      センラさん<br>
-      自撮り選手権
-    </h1>
+    <!-- =========================
+         スタート画面
+    ========================== -->
 
-    <p id="round" class="round">
-      ROUND 1
-    </p>
+    <section
+      id="startScreen"
+      class="start-screen"
+    >
 
-    <!-- ゲーム進行ゲージ -->
-    <div class="progress-area">
-
-      <div
-        id="progressText"
-        class="progress-text"
-      >
-        優勝まであと 16 回
+      <div class="start-icon">
+        📸
       </div>
 
-      <div class="progress-bar">
+      <h1>
+        センラさん<br>
+        自撮り選手権
+      </h1>
+
+      <p class="start-description">
+        夜叉ツアーの自撮りから<br>
+        あなたのNo.1を決めよう！
+      </p>
+
+      <p class="start-count">
+        全17枚からスタート
+      </p>
+
+      <button
+        id="startButton"
+        class="start-button"
+        type="button"
+      >
+        START
+      </button>
+
+    </section>
+
+
+    <!-- =========================
+         ゲーム画面
+    ========================== -->
+
+    <section
+      id="gameScreen"
+      class="game-screen"
+    >
+
+      <h1>
+        センラさん<br>
+        自撮り選手権
+      </h1>
+
+      <p id="round" class="round">
+        ROUND 1
+      </p>
+
+
+      <!-- ゲーム進行ゲージ -->
+
+      <div class="progress-area">
 
         <div
-          id="progressFill"
-          class="progress-fill">
+          id="progressText"
+          class="progress-text"
+        >
+          優勝まであと 16 回
+        </div>
+
+        <div class="progress-bar">
+
+          <div
+            id="progressFill"
+            class="progress-fill">
+          </div>
+
         </div>
 
       </div>
 
-    </div>
 
-    <p id="message" class="message">
-      どっちの自撮りが好き？
-    </p>
-
-
-    <div class="choices">
-
-      <!-- 上の自撮り -->
-
-      <button
-        id="choiceA"
-        class="choice"
-        type="button"
-      >
-
-        <div class="post-box"></div>
-
-      </button>
+      <p id="message" class="message">
+        どっちの自撮りが好き？
+      </p>
 
 
-      <div class="vs">
-        VS
+      <div class="choices">
+
+        <!-- 上の自撮り -->
+
+        <button
+          id="choiceA"
+          class="choice"
+          type="button"
+        >
+
+          <div class="post-box"></div>
+
+        </button>
+
+
+        <div class="vs">
+          VS
+        </div>
+
+
+        <!-- 下の自撮り -->
+
+        <button
+          id="choiceB"
+          class="choice"
+          type="button"
+        >
+
+          <div class="post-box"></div>
+
+        </button>
+
       </div>
 
-
-      <!-- 下の自撮り -->
-
-      <button
-        id="choiceB"
-        class="choice"
-        type="button"
-      >
-
-        <div class="post-box"></div>
-
-      </button>
-
-    </div>
+    </section>
 
   </main>
 
