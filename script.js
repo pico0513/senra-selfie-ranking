@@ -1,3 +1,7 @@
+// ==================================================
+// センラさん自撮り選手権
+// ==================================================
+
 const choiceA = document.getElementById("choiceA");
 const choiceB = document.getElementById("choiceB");
 const message = document.getElementById("message");
@@ -100,10 +104,13 @@ const selfies = [
 // ==================================================
 
 function shuffle(array) {
+
   const result = [...array];
 
   for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+
+    const j =
+      Math.floor(Math.random() * (i + 1));
 
     [result[i], result[j]] =
       [result[j], result[i]];
@@ -133,7 +140,8 @@ let currentB = null;
 
 function showPost(button, selfie) {
 
-  const box = button.querySelector(".post-box");
+  const box =
+    button.querySelector(".post-box");
 
   box.innerHTML = `
     <p>${selfie.name}</p>
@@ -143,16 +151,13 @@ function showPost(button, selfie) {
     </blockquote>
   `;
 
-  /*
-    Xの公式ウィジェットが読み込まれた後でも
-    確実に再描画する
-  */
-
   if (
     window.twttr &&
     window.twttr.widgets
   ) {
+
     window.twttr.widgets.load(box);
+
   }
 }
 
@@ -168,6 +173,9 @@ function startRound() {
 
   round.textContent =
     `ROUND ${roundNumber}`;
+
+  message.textContent =
+    "どっちの自撮りが好き？";
 
   showNextMatch();
 }
@@ -186,20 +194,10 @@ function showNextMatch() {
 
     players = winners;
 
-    // 1人だけになったら優勝
+    // 優勝決定
     if (players.length === 1) {
 
-      currentA = players[0];
-      currentB = null;
-
-      round.textContent = "WINNER";
-
-      message.textContent =
-        `👑 ${players[0].name} が優勝！`;
-
-      showPost(choiceA, players[0]);
-
-      choiceB.style.display = "none";
+      showWinner(players[0]);
 
       return;
     }
@@ -221,7 +219,6 @@ function showNextMatch() {
     players.length % 2 === 1
   ) {
 
-    // 最後の1人は不戦勝
     winners.push(players[matchIndex]);
 
     matchIndex++;
@@ -232,68 +229,127 @@ function showNextMatch() {
   }
 
   // ------------------------------------------
-  // 対戦相手を設定
+  // 対戦相手
   // ------------------------------------------
 
-  currentA = players[matchIndex];
+  currentA =
+    players[matchIndex];
 
-  currentB = players[matchIndex + 1];
+  currentB =
+    players[matchIndex + 1];
 
-  showPost(choiceA, currentA);
+  showPost(
+    choiceA,
+    currentA
+  );
 
-  showPost(choiceB, currentB);
+  showPost(
+    choiceB,
+    currentB
+  );
 }
 
 // ==================================================
 // 勝者を選ぶ
 // ==================================================
 
-function choose(winner) {
+function choose(winner, selectedButton) {
 
   // 二重クリック防止
+
   choiceA.disabled = true;
   choiceB.disabled = true;
 
+  // 選択したカードを強調
+
+  selectedButton.classList.add("selected");
+
   message.textContent =
-    `「${winner.name}」が勝ち残り！`;
+    `✨ ${winner.name} ✨`;
 
   setTimeout(() => {
 
+    // 強調を解除
+
+    selectedButton.classList.remove("selected");
+
     // 勝者を保存
+
     winners.push(winner);
 
-    // 次の対戦へ
-    matchIndex += 2;
+    // 次の対戦
 
-    message.textContent = "";
+    matchIndex += 2;
 
     choiceA.disabled = false;
     choiceB.disabled = false;
 
+    message.textContent =
+      "どっちの自撮りが好き？";
+
     showNextMatch();
 
-  }, 500);
+  }, 800);
+}
+
+// ==================================================
+// 優勝画面
+// ==================================================
+
+function showWinner(winner) {
+
+  currentA = winner;
+  currentB = null;
+
+  round.textContent =
+    "WINNER";
+
+  message.textContent =
+    `👑 ${winner.name} 👑`;
+
+  showPost(
+    choiceA,
+    winner
+  );
+
+  choiceB.style.display = "none";
 }
 
 // ==================================================
 // クリック
 // ==================================================
 
-choiceA.addEventListener("click", () => {
+choiceA.addEventListener(
+  "click",
+  () => {
 
-  if (currentA) {
-    choose(currentA);
+    if (currentA) {
+
+      choose(
+        currentA,
+        choiceA
+      );
+
+    }
+
   }
+);
 
-});
+choiceB.addEventListener(
+  "click",
+  () => {
 
-choiceB.addEventListener("click", () => {
+    if (currentB) {
 
-  if (currentB) {
-    choose(currentB);
+      choose(
+        currentB,
+        choiceB
+      );
+
+    }
+
   }
-
-});
+);
 
 // ==================================================
 // ゲーム開始
