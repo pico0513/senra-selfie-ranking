@@ -1,3 +1,7 @@
+const startScreen = document.getElementById("startScreen");
+const gameScreen = document.getElementById("gameScreen");
+const startButton = document.getElementById("startButton");
+
 const choiceA = document.getElementById("choiceA");
 const choiceB = document.getElementById("choiceB");
 const message = document.getElementById("message");
@@ -5,6 +9,11 @@ const round = document.getElementById("round");
 const progressText = document.getElementById("progressText");
 const progressFill = document.getElementById("progressFill");
 const game = document.querySelector(".game");
+
+
+/* =========================
+   自撮りデータ
+========================= */
 
 const selfies = [
   {
@@ -100,11 +109,19 @@ const selfies = [
 ========================= */
 
 function shuffle(array) {
+
   const result = [...array];
 
-  for (let i = result.length - 1; i > 0; i--) {
+  for (
+    let i = result.length - 1;
+    i > 0;
+    i--
+  ) {
+
     const j =
-      Math.floor(Math.random() * (i + 1));
+      Math.floor(
+        Math.random() * (i + 1)
+      );
 
     [result[i], result[j]] =
       [result[j], result[i]];
@@ -119,11 +136,17 @@ function shuffle(array) {
 ========================= */
 
 let players = shuffle(selfies);
+
 let winners = [];
+
 let matchIndex = 0;
+
 let roundNumber = 1;
+
 let currentA = null;
+
 let currentB = null;
+
 let gameFinished = false;
 
 
@@ -174,7 +197,9 @@ function showPost(button, selfie) {
     window.twttr &&
     window.twttr.widgets
   ) {
+
     window.twttr.widgets.load(box);
+
   }
 }
 
@@ -209,7 +234,9 @@ function showRoundAnimation() {
    WIN演出
 ========================= */
 
-function showWinAnimation(selectedButton) {
+function showWinAnimation(
+  selectedButton
+) {
 
   selectedButton.classList.add(
     "win-animation"
@@ -244,7 +271,9 @@ function showWinAnimation(selectedButton) {
    ラウンド開始
 ========================= */
 
-function startRound(isNewRound = false) {
+function startRound(
+  isNewRound = false
+) {
 
   if (players.length === 1) {
 
@@ -253,21 +282,29 @@ function startRound(isNewRound = false) {
     return;
   }
 
+
   winners = [];
 
   matchIndex = 0;
 
+
   round.textContent =
     `ROUND ${roundNumber}`;
+
 
   message.textContent =
     "どっちの自撮りが好き？";
 
+
   choiceB.style.display = "";
 
+
   if (isNewRound) {
+
     showRoundAnimation();
+
   }
+
 
   showNextMatch();
 }
@@ -279,9 +316,12 @@ function startRound(isNewRound = false) {
 
 function showNextMatch() {
 
-  if (matchIndex >= players.length) {
+  if (
+    matchIndex >= players.length
+  ) {
 
     players = winners;
+
 
     if (players.length === 1) {
 
@@ -290,13 +330,21 @@ function showNextMatch() {
       return;
     }
 
+
     roundNumber++;
 
+
     startRound(true);
+
 
     return;
   }
 
+
+  /*
+   * 奇数の場合、
+   * 最後の1人はそのまま次ROUNDへ
+   */
 
   if (
     matchIndex === players.length - 1 &&
@@ -348,16 +396,21 @@ function choose(
 
   if (gameFinished) return;
 
+
   choiceA.disabled = true;
+
   choiceB.disabled = true;
+
 
   selectedButton.classList.add(
     "selected"
   );
 
+
   showWinAnimation(
     selectedButton
   );
+
 
   message.textContent =
     `✨ ${winner.name} ✨`;
@@ -369,18 +422,26 @@ function choose(
       "selected"
     );
 
+
     winners.push(winner);
+
 
     completedMatches++;
 
+
     matchIndex += 2;
 
+
     choiceA.disabled = false;
+
     choiceB.disabled = false;
+
 
     updateProgress();
 
+
     showNextMatch();
+
 
     if (!gameFinished) {
 
@@ -401,24 +462,32 @@ function finishGame(winner) {
 
   gameFinished = true;
 
+
   currentA = winner;
+
   currentB = null;
+
 
   game.classList.add(
     "winner-mode"
   );
 
+
   round.textContent =
     "👑 WINNER 👑";
+
 
   message.textContent =
     "あなたが選んだ自撮りは……";
 
+
   progressText.textContent =
     "🎉 優勝決定！";
 
+
   progressFill.style.width =
     "100%";
+
 
   showPost(
     choiceA,
@@ -427,17 +496,24 @@ function finishGame(winner) {
 
 
   const box =
-    choiceA.querySelector(".post-box");
+    choiceA.querySelector(
+      ".post-box"
+    );
 
 
   const name =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   name.className =
     "winner-name";
 
+
   name.textContent =
     `👑 ${winner.name} 👑`;
+
 
   box.insertBefore(
     name,
@@ -448,27 +524,35 @@ function finishGame(winner) {
   choiceB.style.display =
     "none";
 
+
   document.querySelector(".vs")
     .style.display =
     "none";
 
 
   const restartButton =
-    document.createElement("button");
+    document.createElement(
+      "button"
+    );
+
 
   restartButton.className =
     "restart-button";
 
+
   restartButton.type =
     "button";
 
+
   restartButton.textContent =
     "🔄 もう一度遊ぶ";
+
 
   restartButton.addEventListener(
     "click",
     restartGame
   );
+
 
   game.appendChild(
     restartButton
@@ -499,11 +583,14 @@ function restartGame() {
 
   completedMatches = 0;
 
+
   game.classList.remove(
     "winner-mode"
   );
 
+
   choiceB.style.display = "";
+
 
   document.querySelector(".vs")
     .style.display = "";
@@ -514,9 +601,13 @@ function restartGame() {
       ".restart-button"
     );
 
+
   if (restartButton) {
+
     restartButton.remove();
+
   }
+
 
   updateProgress();
 
@@ -525,7 +616,47 @@ function restartGame() {
 
 
 /* =========================
-   ボタン
+   STARTボタン
+========================= */
+
+startButton.addEventListener(
+  "click",
+  () => {
+
+    startScreen.style.display =
+      "none";
+
+    gameScreen.classList.add(
+      "active"
+    );
+
+    players =
+      shuffle(selfies);
+
+    winners = [];
+
+    matchIndex = 0;
+
+    roundNumber = 1;
+
+    currentA = null;
+
+    currentB = null;
+
+    gameFinished = false;
+
+    completedMatches = 0;
+
+    updateProgress();
+
+    startRound();
+
+  }
+);
+
+
+/* =========================
+   ゲームボタン
 ========================= */
 
 choiceA.addEventListener(
@@ -566,12 +697,3 @@ choiceB.addEventListener(
 
   }
 );
-
-
-/* =========================
-   ゲーム開始
-========================= */
-
-updateProgress();
-
-startRound();
