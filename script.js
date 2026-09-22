@@ -11,22 +11,22 @@ const selfies = [
   {
     id: 1,
     name: "自撮り A",
-    url: "https://x.com/sen_sen_sen_sen/status/2086058979239878765?"
+    url: "https://x.com/sen_sen_sen_sen/status/2086058979239878765"
   },
   {
     id: 2,
     name: "自撮り B",
-    url: "https://x.com/sen_sen_sen_sen/status/2085727678150398070?"
+    url: "https://x.com/sen_sen_sen_sen/status/2085727678150398070"
   },
   {
     id: 3,
     name: "自撮り C",
-    url: "https://x.com/sen_sen_sen_sen/status/2083887643583205425?"
+    url: "https://x.com/sen_sen_sen_sen/status/2083887643583205425"
   },
   {
     id: 4,
     name: "自撮り D",
-    url: "https://x.com/sen_sen_sen_sen/status/2083537136092078495?"
+    url: "https://x.com/sen_sen_sen_sen/status/2083537136092078495"
   }
 ];
 
@@ -58,6 +58,10 @@ let currentIndex = 2;
 let currentA = randomizedSelfies[0];
 let currentB = randomizedSelfies[1];
 
+let roundNumber = 1;
+
+round.textContent = `ROUND ${roundNumber}`;
+
 // ============================
 // X投稿を表示
 // ============================
@@ -83,21 +87,20 @@ showPost(choiceA, currentA);
 showPost(choiceB, currentB);
 
 // ============================
-// 選択処理
+// 勝敗処理
 // ============================
 
 function choose(winner) {
 
-  message.textContent =
-    `「${winner.name}」が勝ち残り！`;
+  // まだ次の自撮りがある場合
+  if (currentIndex < randomizedSelfies.length) {
 
-  setTimeout(() => {
+    message.textContent =
+      `「${winner.name}」が勝ち残り！`;
 
-    message.textContent = "";
+    setTimeout(() => {
 
-    // 次の自撮りがあるか確認
-    if (currentIndex < randomizedSelfies.length) {
-
+      // 次の自撮り
       const nextSelfie =
         randomizedSelfies[currentIndex];
 
@@ -105,28 +108,38 @@ function choose(winner) {
       currentA = winner;
       currentB = nextSelfie;
 
+      // 次の自撮りへ
       currentIndex++;
 
-      round.textContent =
-        `ROUND ${currentIndex - 1}`;
+      // ROUNDを進める
+      roundNumber++;
 
+      round.textContent =
+        `ROUND ${roundNumber}`;
+
+      message.textContent = "";
+
+      // 表示更新
       showPost(choiceA, currentA);
       showPost(choiceB, currentB);
 
-    } else {
+    }, 700);
 
-      // 全員登場したら優勝
-      round.textContent = "WINNER";
+  } else {
 
-      message.textContent =
-        `👑 ${winner.name} が優勝！`;
-    }
+    // ============================
+    // 全員登場 → 優勝
+    // ============================
 
-  }, 700);
+    round.textContent = "WINNER";
+
+    message.textContent =
+      `👑 ${winner.name} が優勝！`;
+  }
 }
 
 // ============================
-// ボタンを押したとき
+// クリック
 // ============================
 
 choiceA.addEventListener("click", () => {
