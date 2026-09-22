@@ -3,9 +3,9 @@ const choiceB = document.getElementById("choiceB");
 const message = document.getElementById("message");
 const round = document.getElementById("round");
 
-// ============================
+// ==================================================
 // 自撮りデータ
-// ============================
+// ==================================================
 
 const selfies = [
   {
@@ -95,9 +95,9 @@ const selfies = [
   }
 ];
 
-// ============================
+// ==================================================
 // ランダムシャッフル
-// ============================
+// ==================================================
 
 function shuffle(array) {
   const result = [...array];
@@ -112,25 +112,27 @@ function shuffle(array) {
   return result;
 }
 
-// ============================
-// ゲーム準備
-// ============================
+// ==================================================
+// ゲーム状態
+// ==================================================
 
 let players = shuffle(selfies);
 
 let winners = [];
 
+let matchIndex = 0;
+
+let roundNumber = 1;
+
 let currentA = null;
 let currentB = null;
 
-let matchIndex = 0;
-let roundNumber = 1;
-
-// ============================
+// ==================================================
 // X投稿を表示
-// ============================
+// ==================================================
 
 function showPost(button, selfie) {
+
   const box = button.querySelector(".post-box");
 
   box.innerHTML = `
@@ -141,29 +143,27 @@ function showPost(button, selfie) {
     </blockquote>
   `;
 
-  if (window.twttr && window.twttr.widgets) {
+  /*
+    Xの公式ウィジェットが読み込まれた後でも
+    確実に再描画する
+  */
+
+  if (
+    window.twttr &&
+    window.twttr.widgets
+  ) {
     window.twttr.widgets.load(box);
   }
 }
 
-// ============================
-// 次のラウンドを準備
-// ============================
+// ==================================================
+// ラウンド開始
+// ==================================================
 
-function prepareRound() {
-
-  // 1人になったら優勝
-  if (players.length === 1) {
-
-    round.textContent = "WINNER";
-
-    message.textContent =
-      `👑 ${players[0].name} が優勝！`;
-
-    return;
-  }
+function startRound() {
 
   winners = [];
+
   matchIndex = 0;
 
   round.textContent =
@@ -172,30 +172,56 @@ function prepareRound() {
   showNextMatch();
 }
 
-// ============================
+// ==================================================
 // 次の対戦
-// ============================
+// ==================================================
 
 function showNextMatch() {
 
-  // 今のラウンドが終わった
+  // ------------------------------------------
+  // ラウンド終了
+  // ------------------------------------------
+
   if (matchIndex >= players.length) {
 
     players = winners;
 
+    // 1人だけになったら優勝
+    if (players.length === 1) {
+
+      currentA = players[0];
+      currentB = null;
+
+      round.textContent = "WINNER";
+
+      message.textContent =
+        `👑 ${players[0].name} が優勝！`;
+
+      showPost(choiceA, players[0]);
+
+      choiceB.style.display = "none";
+
+      return;
+    }
+
+    // 次のラウンド
     roundNumber++;
 
-    prepareRound();
+    startRound();
 
     return;
   }
 
-  // 奇数人数なら最後の1人はシード
+  // ------------------------------------------
+  // 奇数人数の場合
+  // ------------------------------------------
+
   if (
     matchIndex === players.length - 1 &&
     players.length % 2 === 1
   ) {
 
+    // 最後の1人は不戦勝
     winners.push(players[matchIndex]);
 
     matchIndex++;
@@ -205,49 +231,72 @@ function showNextMatch() {
     return;
   }
 
+  // ------------------------------------------
+  // 対戦相手を設定
+  // ------------------------------------------
+
   currentA = players[matchIndex];
+
   currentB = players[matchIndex + 1];
 
   showPost(choiceA, currentA);
+
   showPost(choiceB, currentB);
 }
 
-// ============================
-// 勝敗処理
-// ============================
+// ==================================================
+// 勝者を選ぶ
+// ==================================================
 
 function choose(winner) {
+
+  // 二重クリック防止
+  choiceA.disabled = true;
+  choiceB.disabled = true;
 
   message.textContent =
     `「${winner.name}」が勝ち残り！`;
 
   setTimeout(() => {
 
+    // 勝者を保存
     winners.push(winner);
 
+    // 次の対戦へ
     matchIndex += 2;
 
     message.textContent = "";
 
+    choiceA.disabled = false;
+    choiceB.disabled = false;
+
     showNextMatch();
 
-  }, 700);
+  }, 500);
 }
 
-// ============================
-// 最初のゲーム開始
-// ============================
-
-prepareRound();
-
-// ============================
+// ==================================================
 // クリック
-// ============================
+// ==================================================
 
 choiceA.addEventListener("click", () => {
-  choose(currentA);
+
+  if (currentA) {
+    choose(currentA);
+  }
+
 });
 
 choiceB.addEventListener("click", () => {
-  choose(currentB);
-}); 
+
+  if (currentB) {
+    choose(currentB);
+  }
+
+});
+
+// ==================================================
+// ゲーム開始
+// ==================================================
+
+startRound();
