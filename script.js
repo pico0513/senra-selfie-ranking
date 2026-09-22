@@ -1,205 +1,162 @@
-// ==================================================
-// センラさん自撮り選手権
-// ==================================================
-
-const choiceA =
-  document.getElementById("choiceA");
-
-const choiceB =
-  document.getElementById("choiceB");
-
-const message =
-  document.getElementById("message");
-
-const round =
-  document.getElementById("round");
-
-const remaining =
-  document.getElementById("remaining");
-
-const game =
-  document.querySelector(".game");
-
-
-// ==================================================
-// 自撮りデータ
-// ==================================================
+const choiceA = document.getElementById("choiceA");
+const choiceB = document.getElementById("choiceB");
+const message = document.getElementById("message");
+const round = document.getElementById("round");
+const remaining = document.getElementById("remaining");
+const game = document.querySelector(".game");
 
 const selfies = [
-
   {
     id: 1,
     name: "夜叉 北海道",
     url: "https://x.com/sen_sen_sen_sen/status/2029564054923354125"
   },
-
   {
     id: 2,
     name: "夜叉 秋田",
     url: "https://x.com/sen_sen_sen_sen/status/2030283244814651560"
   },
-
   {
     id: 3,
     name: "夜叉 岩手",
     url: "https://x.com/sen_sen_sen_sen/status/2030958425916760553"
   },
-
   {
     id: 4,
     name: "夜叉 茨城",
     url: "https://x.com/sen_sen_sen_sen/status/2033195016043258228"
   },
-
   {
     id: 5,
     name: "夜叉 高知",
     url: "https://x.com/sen_sen_sen_sen/status/2035342123948732843"
   },
-
   {
     id: 6,
     name: "夜叉 香川",
     url: "https://x.com/sen_sen_sen_sen/status/2035694140978339870"
   },
-
   {
     id: 7,
     name: "夜叉 石川",
     url: "https://x.com/sen_sen_sen_sen/status/2037904075862466586"
   },
-
   {
     id: 8,
     name: "夜叉 福井",
     url: "https://x.com/sen_sen_sen_sen/status/2038250190445175190"
   },
-
   {
     id: 9,
     name: "夜叉 岡山",
     url: "https://x.com/sen_sen_sen_sen/status/2039698699992051862"
   },
-
   {
     id: 10,
     name: "夜叉 滋賀",
     url: "https://x.com/sen_sen_sen_sen/status/2040413743784566908"
   },
-
   {
     id: 11,
     name: "夜叉 奈良",
     url: "https://x.com/sen_sen_sen_sen/status/2040793776952836361"
   },
-
   {
     id: 12,
     name: "夜叉 岐阜",
     url: "https://x.com/sen_sen_sen_sen/status/2041504228020265263"
   },
-
   {
     id: 13,
     name: "夜叉 静岡",
     url: "https://x.com/sen_sen_sen_sen/status/2042264523206537299"
   },
-
   {
     id: 14,
     name: "夜叉 群馬",
     url: "https://x.com/sen_sen_sen_sen/status/2043314680152948822"
   },
-
   {
     id: 15,
     name: "夜叉 大分",
     url: "https://x.com/sen_sen_sen_sen/status/2045485889196044461"
   },
-
   {
     id: 16,
     name: "夜叉 東京1日目",
     url: "https://x.com/sen_sen_sen_sen/status/2048043422343397687"
   },
-
   {
     id: 17,
     name: "夜叉 東京2日目",
     url: "https://x.com/sen_sen_sen_sen/status/2048360987070537974"
   }
-
 ];
 
-
-// ==================================================
-// シャッフル
-// ==================================================
-
 function shuffle(array) {
-
   const result = [...array];
 
-  for (
-    let i = result.length - 1;
-    i > 0;
-    i--
-  ) {
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
 
-    const j =
-      Math.floor(
-        Math.random() * (i + 1)
-      );
-
-    [
-      result[i],
-      result[j]
-    ] = [
+    [result[i], result[j]] = [
       result[j],
       result[i]
     ];
-
   }
 
   return result;
 }
 
-
-// ==================================================
-// ゲーム状態
-// ==================================================
-
-let players =
-  shuffle(selfies);
-
+let players = shuffle(selfies);
 let winners = [];
-
 let matchIndex = 0;
-
 let roundNumber = 1;
-
 let currentA = null;
-
 let currentB = null;
-
 let gameFinished = false;
 
 
-// ==================================================
-// 残り枚数を更新
-// ==================================================
+/* =========================
+   あと何回で終わるか表示
+========================= */
 
-function updateRemaining() {
+function updateRemainingMatches() {
+
+  // 現在のラウンドで残っている対戦数
+  const remainingInCurrentRound =
+    Math.ceil(
+      (players.length - matchIndex) / 2
+    );
+
+  // これから行われる次ラウンド以降の対戦数
+  let futureMatches = 0;
+
+  let nextPlayers =
+    Math.ceil(players.length / 2);
+
+  while (nextPlayers > 1) {
+
+    futureMatches += Math.floor(
+      nextPlayers / 2
+    );
+
+    nextPlayers =
+      Math.ceil(nextPlayers / 2);
+  }
+
+  const totalRemaining =
+    remainingInCurrentRound +
+    futureMatches;
 
   remaining.textContent =
-    `残り ${players.length} 枚`;
-
+    `優勝まであと ${totalRemaining} 回`;
 }
 
 
-// ==================================================
-// X投稿を表示
-// ==================================================
+/* =========================
+   X投稿を表示
+========================= */
 
 function showPost(button, selfie) {
 
@@ -207,32 +164,25 @@ function showPost(button, selfie) {
     button.querySelector(".post-box");
 
   box.innerHTML = `
-
     <p>${selfie.name}</p>
 
     <blockquote class="twitter-tweet">
-
       <a href="${selfie.url}"></a>
-
     </blockquote>
-
   `;
 
   if (
     window.twttr &&
     window.twttr.widgets
   ) {
-
     window.twttr.widgets.load(box);
-
   }
-
 }
 
 
-// ==================================================
-// ラウンド開始
-// ==================================================
+/* =========================
+   ラウンド開始
+========================= */
 
 function startRound() {
 
@@ -241,66 +191,49 @@ function startRound() {
     finishGame(players[0]);
 
     return;
-
   }
 
   winners = [];
-
   matchIndex = 0;
-
 
   round.textContent =
     `ROUND ${roundNumber}`;
 
-
-  updateRemaining();
-
-
   message.textContent =
     "どっちの自撮りが好き？";
 
-
   choiceB.style.display = "";
 
-
   showNextMatch();
-
 }
 
 
-// ==================================================
-// 次の対戦
-// ==================================================
+/* =========================
+   次の対戦
+========================= */
 
 function showNextMatch() {
 
-  if (
-    matchIndex >= players.length
-  ) {
+  if (matchIndex >= players.length) {
 
     players = winners;
-
 
     if (players.length === 1) {
 
       finishGame(players[0]);
 
       return;
-
     }
 
-
     roundNumber++;
-
 
     startRound();
 
     return;
-
   }
 
 
-  // 奇数人数の場合
+  // 奇数の場合、最後の1人はそのまま次ROUNDへ
   if (
     matchIndex === players.length - 1 &&
     players.length % 2 === 1
@@ -312,11 +245,9 @@ function showNextMatch() {
 
     matchIndex++;
 
-
     showNextMatch();
 
     return;
-
   }
 
 
@@ -337,54 +268,31 @@ function showNextMatch() {
     currentB
   );
 
+
+  updateRemainingMatches();
 }
 
 
-// ==================================================
-// 勝者を選ぶ
-// ==================================================
+/* =========================
+   選択
+========================= */
 
 function choose(
   winner,
   selectedButton
 ) {
 
-  if (gameFinished) {
-
-    return;
-
-  }
-
-
-  // 二重クリック防止
+  if (gameFinished) return;
 
   choiceA.disabled = true;
-
   choiceB.disabled = true;
-
-
-  // 選んだカードを黄色くする
 
   selectedButton.classList.add(
     "selected"
   );
 
-
-  // 選んだ自撮りを表示
-
   message.textContent =
     `✨ ${winner.name} ✨`;
-
-
-  // ★ ここで残り枚数を1枚減らす
-
-  players =
-    players.filter(
-      selfie => selfie.id !== winner.id
-    );
-
-
-  updateRemaining();
 
 
   setTimeout(() => {
@@ -393,28 +301,15 @@ function choose(
       "selected"
     );
 
-
-    // 勝者を保存
-
     winners.push(winner);
-
-
-    // 次の対戦へ
 
     matchIndex += 2;
 
-
     choiceA.disabled = false;
-
     choiceB.disabled = false;
-
-
-    // 次の対戦を表示
 
     showNextMatch();
 
-
-    // 次の対戦では質問に戻す
 
     if (!gameFinished) {
 
@@ -424,39 +319,32 @@ function choose(
     }
 
   }, 900);
-
 }
 
 
-// ==================================================
-// 優勝画面
-// ==================================================
+/* =========================
+   優勝
+========================= */
 
 function finishGame(winner) {
 
   gameFinished = true;
 
   currentA = winner;
-
   currentB = null;
-
 
   game.classList.add(
     "winner-mode"
   );
 
-
   round.textContent =
     "👑 WINNER 👑";
-
-
-  remaining.textContent =
-    "全17枚から決定！";
-
 
   message.textContent =
     "あなたが選んだ自撮りは……";
 
+  remaining.textContent =
+    "🎉 優勝決定！";
 
   showPost(
     choiceA,
@@ -465,24 +353,17 @@ function finishGame(winner) {
 
 
   const box =
-    choiceA.querySelector(
-      ".post-box"
-    );
+    choiceA.querySelector(".post-box");
 
 
   const name =
-    document.createElement(
-      "div"
-    );
-
+    document.createElement("div");
 
   name.className =
     "winner-name";
 
-
   name.textContent =
     `👑 ${winner.name} 👑`;
-
 
   box.insertBefore(
     name,
@@ -493,47 +374,36 @@ function finishGame(winner) {
   choiceB.style.display =
     "none";
 
-
-  document.querySelector(
-    ".vs"
-  ).style.display =
-    "none";
+  document.querySelector(".vs")
+    .style.display = "none";
 
 
   const restartButton =
-    document.createElement(
-      "button"
-    );
-
+    document.createElement("button");
 
   restartButton.className =
     "restart-button";
 
-
   restartButton.type =
     "button";
 
-
   restartButton.textContent =
     "🔄 もう一度遊ぶ";
-
 
   restartButton.addEventListener(
     "click",
     restartGame
   );
 
-
   game.appendChild(
     restartButton
   );
-
 }
 
 
-// ==================================================
-// もう一度遊ぶ
-// ==================================================
+/* =========================
+   もう一度遊ぶ
+========================= */
 
 function restartGame() {
 
@@ -552,20 +422,14 @@ function restartGame() {
 
   gameFinished = false;
 
-
   game.classList.remove(
     "winner-mode"
   );
 
+  choiceB.style.display = "";
 
-  choiceB.style.display =
-    "";
-
-
-  document.querySelector(
-    ".vs"
-  ).style.display =
-    "";
+  document.querySelector(".vs")
+    .style.display = "";
 
 
   const restartButton =
@@ -573,22 +437,18 @@ function restartGame() {
       ".restart-button"
     );
 
-
   if (restartButton) {
-
     restartButton.remove();
-
   }
 
 
   startRound();
-
 }
 
 
-// ==================================================
-// クリック
-// ==================================================
+/* =========================
+   ボタン
+========================= */
 
 choiceA.addEventListener(
   "click",
@@ -598,12 +458,10 @@ choiceA.addEventListener(
       currentA &&
       !gameFinished
     ) {
-
       choose(
         currentA,
         choiceA
       );
-
     }
 
   }
@@ -618,20 +476,18 @@ choiceB.addEventListener(
       currentB &&
       !gameFinished
     ) {
-
       choose(
         currentB,
         choiceB
       );
-
     }
 
   }
 );
 
 
-// ==================================================
-// ゲーム開始
-// ==================================================
+/* =========================
+   ゲーム開始
+========================= */
 
 startRound();
