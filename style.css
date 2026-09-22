@@ -1024,3 +1024,193 @@ body {
   }
 
 }
+
+/* ============================
+   ランキング
+============================ */
+
+.ranking-area {
+  width: 100%;
+
+  max-width: 600px;
+
+  margin: 30px auto 10px;
+
+  padding: 24px 18px;
+
+  border-radius: 24px;
+
+  background: white;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, 0.08);
+}
+
+
+.ranking-title {
+  margin: 0 0 20px;
+
+  font-size: 24px;
+
+  font-weight: 900;
+
+  text-align: center;
+}
+
+
+/* ============================
+   ランキング項目
+============================ */
+
+.ranking-item {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  min-height: 62px;
+
+  margin-bottom: 8px;
+
+  padding: 10px 14px;
+
+  border-radius: 15px;
+
+  background: #fffaf0;
+
+  border: 1px solid #eee5c8;
+}
+
+
+.ranking-item:last-child {
+  margin-bottom: 0;
+}
+
+
+.ranking-first {
+  padding-top: 14px;
+
+  padding-bottom: 14px;
+
+  background: #fff4bd;
+
+  border: 2px solid #f4c542;
+
+  box-shadow:
+    0 5px 15px
+    rgba(244, 197, 66, 0.2);
+}
+
+
+/* ============================
+   順位
+============================ */
+
+.ranking-number {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 45px;
+
+  min-width: 45px;
+
+  font-size: 20px;
+
+  font-weight: 900;
+}
+
+
+.ranking-first .ranking-number {
+  font-size: 30px;
+}
+
+
+/* ============================
+   名前・勝利数
+============================ */
+
+.ranking-info {
+  flex: 1;
+
+  text-align: left;
+
+  margin-left: 8px;
+}
+
+
+.ranking-name {
+  font-size: 16px;
+
+  font-weight: 800;
+
+  color: #333;
+}
+
+
+.ranking-wins {
+  margin-top: 3px;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  color: #999;
+}
+
+
+/* ============================
+   スマホ
+============================ */
+
+@media (max-width: 700px) {
+
+  .ranking-area {
+    margin-top: 25px;
+
+    padding: 20px 12px;
+
+    border-radius: 20px;
+  }
+
+
+  .ranking-title {
+    font-size: 21px;
+
+    margin-bottom: 16px;
+  }
+
+
+  .ranking-item {
+    min-height: 56px;
+
+    padding: 8px 10px;
+  }
+
+
+  .ranking-number {
+    width: 40px;
+
+    min-width: 40px;
+  }
+
+
+  .ranking-first .ranking-number {
+    font-size: 27px;
+  }
+
+
+  .ranking-name {
+    font-size: 14px;
+  }
+
+
+  .ranking-wins {
+    font-size: 12px;
+  }
+
+}
