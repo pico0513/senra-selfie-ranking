@@ -1,151 +1,87 @@
-const choiceA = document.getElementById("choiceA");
-const choiceB = document.getElementById("choiceB");
-const message = document.getElementById("message");
-const round = document.getElementById("round");
-
-// ============================
-// 自撮りデータ
-// ============================
-
 const selfies = [
   {
     id: 1,
-    name: "自撮り A",
-    url: "https://x.com/sen_sen_sen_sen/status/2086058979239878765"
+    name: "夜叉 北海道",
+    url: "https://x.com/sen_sen_sen_sen/status/2029564054923354125"
   },
   {
     id: 2,
-    name: "自撮り B",
-    url: "https://x.com/sen_sen_sen_sen/status/2085727678150398070"
+    name: "夜叉 秋田",
+    url: "https://x.com/sen_sen_sen_sen/status/2030283244814651560"
   },
   {
     id: 3,
-    name: "自撮り C",
-    url: "https://x.com/sen_sen_sen_sen/status/2083887643583205425"
+    name: "夜叉 岩手",
+    url: "https://x.com/sen_sen_sen_sen/status/2030958425916760553"
   },
   {
     id: 4,
-    name: "自撮り D",
-    url: "https://x.com/sen_sen_sen_sen/status/2083537136092078495"
+    name: "夜叉 茨城",
+    url: "https://x.com/sen_sen_sen_sen/status/2033195016043258228"
+  },
+  {
+    id: 5,
+    name: "夜叉 高知",
+    url: "https://x.com/sen_sen_sen_sen/status/2035342123948732843"
+  },
+  {
+    id: 6,
+    name: "夜叉 香川",
+    url: "https://x.com/sen_sen_sen_sen/status/2035694140978339870"
+  },
+  {
+    id: 7,
+    name: "夜叉 石川",
+    url: "https://x.com/sen_sen_sen_sen/status/2037904075862466586"
+  },
+  {
+    id: 8,
+    name: "夜叉 福井",
+    url: "https://x.com/sen_sen_sen_sen/status/2038250190445175190"
+  },
+  {
+    id: 9,
+    name: "夜叉 岡山",
+    url: "https://x.com/sen_sen_sen_sen/status/2039698699992051862"
+  },
+  {
+    id: 10,
+    name: "夜叉 滋賀",
+    url: "https://x.com/sen_sen_sen_sen/status/2040413743784566908"
+  },
+  {
+    id: 11,
+    name: "夜叉 奈良",
+    url: "https://x.com/sen_sen_sen_sen/status/2040793776952836361"
+  },
+  {
+    id: 12,
+    name: "夜叉 岐阜",
+    url: "https://x.com/sen_sen_sen_sen/status/2041504228020265263"
+  },
+  {
+    id: 13,
+    name: "夜叉 静岡",
+    url: "https://x.com/sen_sen_sen_sen/status/2042264523206537299"
+  },
+  {
+    id: 14,
+    name: "夜叉 群馬",
+    url: "https://x.com/sen_sen_sen_sen/status/2043314680152948822"
+  },
+  {
+    id: 15,
+    name: "夜叉 大分",
+    url: "https://x.com/sen_sen_sen_sen/status/2045485889196044461"
+  },
+  {
+    id: 16,
+    name: "夜叉 東京1日目",
+    url: "https://x.com/sen_sen_sen_sen/status/2048043422343397687"
+  },
+  {
+    id: 17,
+    name: "夜叉 東京2日目",
+    url: "https://x.com/sen_sen_sen_sen/status/2048360987070537974"
   }
 ];
-
-// ============================
-// ランダムシャッフル
-// ============================
-
-function shuffle(array) {
-  const result = [...array];
-
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-
-    [result[i], result[j]] =
-      [result[j], result[i]];
-  }
-
-  return result;
-}
-
-// ============================
-// ゲーム開始
-// ============================
-
-const randomizedSelfies = shuffle(selfies);
-
-let currentIndex = 2;
-
-let currentA = randomizedSelfies[0];
-let currentB = randomizedSelfies[1];
-
-let roundNumber = 1;
-
-round.textContent = `ROUND ${roundNumber}`;
-
-// ============================
-// X投稿を表示
-// ============================
-
-function showPost(button, selfie) {
-  const box = button.querySelector(".post-box");
-
-  box.innerHTML = `
-    <p>${selfie.name}</p>
-
-    <blockquote class="twitter-tweet">
-      <a href="${selfie.url}"></a>
-    </blockquote>
-  `;
-
-  if (window.twttr && window.twttr.widgets) {
-    window.twttr.widgets.load(box);
-  }
-}
-
-// 最初の2枚を表示
-showPost(choiceA, currentA);
-showPost(choiceB, currentB);
-
-// ============================
-// 勝敗処理
-// ============================
-
-function choose(winner) {
-
-  // まだ次の自撮りがある場合
-  if (currentIndex < randomizedSelfies.length) {
-
-    message.textContent =
-      `「${winner.name}」が勝ち残り！`;
-
-    setTimeout(() => {
-
-      // 次の自撮り
-      const nextSelfie =
-        randomizedSelfies[currentIndex];
-
-      // 勝者 VS 次の自撮り
-      currentA = winner;
-      currentB = nextSelfie;
-
-      // 次の自撮りへ
-      currentIndex++;
-
-      // ROUNDを進める
-      roundNumber++;
-
-      round.textContent =
-        `ROUND ${roundNumber}`;
-
-      message.textContent = "";
-
-      // 表示更新
-      showPost(choiceA, currentA);
-      showPost(choiceB, currentB);
-
-    }, 700);
-
-  } else {
-
-    // ============================
-    // 全員登場 → 優勝
-    // ============================
-
-    round.textContent = "WINNER";
-
-    message.textContent =
-      `👑 ${winner.name} が優勝！`;
-  }
-}
-
-// ============================
-// クリック
-// ============================
-
-choiceA.addEventListener("click", () => {
-  choose(currentA);
-});
-
-choiceB.addEventListener("click", () => {
-  choose(currentB);
-});
