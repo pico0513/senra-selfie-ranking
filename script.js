@@ -12,36 +12,62 @@ const selfies = [
   {
     id: 1,
     name: "自撮り A",
-    url: "https://x.com/sen_sen_sen_sen/status/2086058979239878765?s=46&t=3QDuhHeWnptfsbN4j88JCw"
+    url: "https://x.com/sen_sen_sen_sen/status/2086058979239878765?"
   },
   {
     id: 2,
     name: "自撮り B",
-    url: "https://x.com/sen_sen_sen_sen/status/2085727678150398070?s=46&t=3QDuhHeWnptfsbN4j88JCw"
+    url: "https://x.com/sen_sen_sen_sen/status/2085727678150398070?"
   },
   {
     id: 3,
     name: "自撮り C",
-    url: "https://x.com/sen_sen_sen_sen/status/2083887643583205425?s=46&t=3QDuhHeWnptfsbN4j88JCw"
+    url: "https://x.com/sen_sen_sen_sen/status/2083887643583205425?"
   },
   {
     id: 4,
     name: "自撮り D",
-    url: "https://x.com/sen_sen_sen_sen/status/2083537136092078495?s=46&t=3QDuhHeWnptfsbN4j88JCw"
+    url: "https://x.com/sen_sen_sen_sen/status/2083537136092078495?"
   }
 ];
+
+
+// ============================
+// ランダムシャッフル
+// ============================
+
+function shuffle(array) {
+
+  const result = [...array];
+
+  for (let i = result.length - 1; i > 0; i--) {
+
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [result[i], result[j]] =
+      [result[j], result[i]];
+  }
+
+  return result;
+}
+
+
+// ゲーム開始時にシャッフル
+let randomizedSelfies = shuffle(selfies);
 
 
 // ============================
 // 現在の対戦
 // ============================
 
-let currentA = selfies[0];
-let currentB = selfies[1];
+let currentIndex = 0;
+
+let currentA = randomizedSelfies[currentIndex];
+let currentB = randomizedSelfies[currentIndex + 1];
 
 
 // ============================
-// X投稿を表示
+// X投稿表示
 // ============================
 
 function showPost(button, selfie) {
@@ -62,54 +88,57 @@ function showPost(button, selfie) {
 }
 
 
-// 最初の2枚を表示
+// 最初の対戦
 showPost(choiceA, currentA);
 showPost(choiceB, currentB);
 
 
 // ============================
-// 選択処理
+// 勝敗処理
 // ============================
 
 function choose(winner) {
 
-  message.textContent = `${winner.name} が勝ち残り！`;
+  message.textContent =
+    `「${winner.name}」が勝ち残り！`;
 
   setTimeout(() => {
 
     message.textContent = "";
 
-    // 次の自撮り
-    const nextIndex = selfies.findIndex(
-      selfie => selfie.id === winner.id
-    ) + 2;
+    currentIndex += 2;
 
-    const nextSelfie = selfies[nextIndex];
+    // 次の対戦相手
+    const nextSelfie =
+      randomizedSelfies[currentIndex];
 
-    // まだ対戦相手がいる場合
     if (nextSelfie) {
 
       currentA = winner;
       currentB = nextSelfie;
 
-      round.textContent = `ROUND ${nextIndex - 1}`;
+      round.textContent =
+        `ROUND ${currentIndex / 2 + 1}`;
 
       showPost(choiceA, currentA);
       showPost(choiceB, currentB);
 
     } else {
 
-      // 最後まで勝ち残った
+      // 優勝！
       round.textContent = "WINNER";
 
       message.textContent =
-        `👑 ${winner.name} が一番好きな自撮り！`;
-
+        `👑 ${winner.name} が優勝！`;
     }
 
-  }, 800);
+  }, 700);
 }
 
+
+// ============================
+// ボタン
+// ============================
 
 choiceA.addEventListener("click", () => {
   choose(currentA);
