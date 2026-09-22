@@ -135,7 +135,7 @@ function shuffle(array) {
    ゲーム状態
 ========================= */
 
-let players = shuffle(selfies);
+let players = [];
 
 let winners = [];
 
@@ -148,6 +148,8 @@ let currentA = null;
 let currentB = null;
 
 let gameFinished = false;
+
+let winCounts = {};
 
 
 /* =========================
@@ -173,6 +175,23 @@ function updateProgress() {
 
   progressFill.style.width =
     `${progress}%`;
+}
+
+
+/* =========================
+   勝利数リセット
+========================= */
+
+function resetWinCounts() {
+
+  winCounts = {};
+
+  selfies.forEach((selfie) => {
+
+    winCounts[selfie.id] = 0;
+
+  });
+
 }
 
 
@@ -423,6 +442,13 @@ function choose(
     );
 
 
+    /*
+     * 勝利数を記録
+     */
+
+    winCounts[winner.id]++;
+
+
     winners.push(winner);
 
 
@@ -451,6 +477,164 @@ function choose(
     }
 
   }, 900);
+}
+
+
+/* =========================
+   ランキング作成
+========================= */
+
+function createRanking() {
+
+  const ranking =
+    [...selfies].sort(
+      (a, b) =>
+        winCounts[b.id] -
+        winCounts[a.id]
+    );
+
+
+  return ranking;
+}
+
+
+/* =========================
+   ランキング表示
+========================= */
+
+function showRanking() {
+
+  const ranking =
+    createRanking();
+
+
+  const rankingArea =
+    document.createElement("section");
+
+  rankingArea.className =
+    "ranking-area";
+
+
+  const title =
+    document.createElement("h2");
+
+  title.className =
+    "ranking-title";
+
+  title.textContent =
+    "🏆 あなたの自撮りランキング";
+
+
+  rankingArea.appendChild(
+    title
+  );
+
+
+  ranking.forEach(
+    (selfie, index) => {
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "ranking-item";
+
+
+      if (index === 0) {
+
+        item.classList.add(
+          "ranking-first"
+        );
+
+      }
+
+
+      const rank =
+        document.createElement("div");
+
+      rank.className =
+        "ranking-number";
+
+
+      if (index === 0) {
+
+        rank.textContent =
+          "🥇";
+
+      } else if (index === 1) {
+
+        rank.textContent =
+          "🥈";
+
+      } else if (index === 2) {
+
+        rank.textContent =
+          "🥉";
+
+      } else {
+
+        rank.textContent =
+          `${index + 1}`;
+
+      }
+
+
+      const info =
+        document.createElement("div");
+
+      info.className =
+        "ranking-info";
+
+
+      const name =
+        document.createElement("div");
+
+      name.className =
+        "ranking-name";
+
+      name.textContent =
+        selfie.name;
+
+
+      const wins =
+        document.createElement("div");
+
+      wins.className =
+        "ranking-wins";
+
+      wins.textContent =
+        `${winCounts[selfie.id]} 勝`;
+
+
+      info.appendChild(
+        name
+      );
+
+      info.appendChild(
+        wins
+      );
+
+
+      item.appendChild(
+        rank
+      );
+
+      item.appendChild(
+        info
+      );
+
+
+      rankingArea.appendChild(
+        item
+      );
+
+    }
+  );
+
+
+  game.appendChild(
+    rankingArea
+  );
 }
 
 
@@ -529,9 +713,16 @@ function finishGame(winner) {
     "none";
 
 
-  /* =========================
-     結果ボタンエリア
-  ========================= */
+  /*
+   * ランキング表示
+   */
+
+  showRanking();
+
+
+  /*
+   * 結果ボタン
+   */
 
   const resultArea =
     document.createElement("div");
@@ -539,8 +730,6 @@ function finishGame(winner) {
   resultArea.className =
     "result-buttons";
 
-
-  /* もう一度遊ぶ */
 
   const restartButton =
     document.createElement("button");
@@ -563,8 +752,6 @@ function finishGame(winner) {
     restartGame
   );
 
-
-  /* Xでシェア */
 
   const shareButton =
     document.createElement("button");
@@ -640,6 +827,9 @@ function restartGame() {
   completedMatches = 0;
 
 
+  resetWinCounts();
+
+
   game.classList.remove(
     "winner-mode"
   );
@@ -651,6 +841,19 @@ function restartGame() {
   document.querySelector(".vs")
     .style.display =
     "";
+
+
+  const rankingArea =
+    document.querySelector(
+      ".ranking-area"
+    );
+
+
+  if (rankingArea) {
+
+    rankingArea.remove();
+
+  }
 
 
   const resultArea =
@@ -703,6 +906,10 @@ startButton.addEventListener(
     gameFinished = false;
 
     completedMatches = 0;
+
+
+    resetWinCounts();
+
 
     updateProgress();
 
