@@ -2,7 +2,8 @@ const choiceA = document.getElementById("choiceA");
 const choiceB = document.getElementById("choiceB");
 const message = document.getElementById("message");
 const round = document.getElementById("round");
-const remaining = document.getElementById("remaining");
+const progressText = document.getElementById("progressText");
+const progressFill = document.getElementById("progressFill");
 const game = document.querySelector(".game");
 
 const selfies = [
@@ -118,39 +119,31 @@ let gameFinished = false;
 
 
 /* =========================
-   あと何回で終わるか表示
+   進行状況
 ========================= */
 
-function updateRemainingMatches() {
+// 最初に必要な選択回数
+const totalMatches = selfies.length - 1;
 
-  // 現在のラウンドで残っている対戦数
-  const remainingInCurrentRound =
-    Math.ceil(
-      (players.length - matchIndex) / 2
-    );
+// 今までに終わった選択回数
+let completedMatches = 0;
 
-  // これから行われる次ラウンド以降の対戦数
-  let futureMatches = 0;
 
-  let nextPlayers =
-    Math.ceil(players.length / 2);
+function updateProgress() {
 
-  while (nextPlayers > 1) {
+  // 残り回数
+  const remainingMatches =
+    totalMatches - completedMatches;
 
-    futureMatches += Math.floor(
-      nextPlayers / 2
-    );
+  // 進行率
+  const progress =
+    (completedMatches / totalMatches) * 100;
 
-    nextPlayers =
-      Math.ceil(nextPlayers / 2);
-  }
+  progressText.textContent =
+    `優勝まであと ${remainingMatches} 回`;
 
-  const totalRemaining =
-    remainingInCurrentRound +
-    futureMatches;
-
-  remaining.textContent =
-    `優勝まであと ${totalRemaining} 回`;
+  progressFill.style.width =
+    `${progress}%`;
 }
 
 
@@ -269,7 +262,7 @@ function showNextMatch() {
   );
 
 
-  updateRemainingMatches();
+  updateProgress();
 }
 
 
@@ -303,10 +296,15 @@ function choose(
 
     winners.push(winner);
 
+    // 1回分進む
+    completedMatches++;
+
     matchIndex += 2;
 
     choiceA.disabled = false;
     choiceB.disabled = false;
+
+    updateProgress();
 
     showNextMatch();
 
@@ -343,8 +341,11 @@ function finishGame(winner) {
   message.textContent =
     "あなたが選んだ自撮りは……";
 
-  remaining.textContent =
+  progressText.textContent =
     "🎉 優勝決定！";
+
+  progressFill.style.width =
+    "100%";
 
   showPost(
     choiceA,
@@ -422,6 +423,8 @@ function restartGame() {
 
   gameFinished = false;
 
+  completedMatches = 0;
+
   game.classList.remove(
     "winner-mode"
   );
@@ -441,6 +444,7 @@ function restartGame() {
     restartButton.remove();
   }
 
+  updateProgress();
 
   startRound();
 }
@@ -490,4 +494,5 @@ choiceB.addEventListener(
    ゲーム開始
 ========================= */
 
+updateProgress();
 startRound();
