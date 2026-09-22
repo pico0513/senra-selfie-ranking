@@ -410,3 +410,32 @@ h1 {
   }
 
 }
+
+.progress-area {
+  width: 100%;
+  max-width: 500px;
+  margin: 8px auto 18px;
+}
+
+.progress-text {
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #777;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eee5c8;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  background: #f4c542;
+  transition: width 0.5s ease;
+}
