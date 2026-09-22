@@ -7,8 +7,8 @@ let currentRound = 1;
 
 // テスト用のX投稿URL
 const posts = {
-  A: "https://x.com/X/status/123456789",
-  B: "https://x.com/X/status/987654321"
+  A: "https://x.com/sen_sen_sen_sen/status/2085727678150398070?s=46&t=3QDuhHeWnptfsbN4j88JCw",
+  B: "https://x.com/sen_sen_sen_sen/status/2083537136092078495?s=46&t=3QDuhHeWnptfsbN4j88JCw"
 };
 
 function showPost(button, url) {
