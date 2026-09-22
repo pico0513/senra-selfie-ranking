@@ -4,140 +4,196 @@
 
 body {
   margin: 0;
-  background: #fffaf0;
+  padding: 20px;
+  background: #fff8df;
   color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
-    "Yu Gothic", sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
 }
 
-.container {
-  width: min(900px, 92%);
+/* ============================
+   ゲーム全体
+============================ */
+
+.game {
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 50px 0;
   text-align: center;
 }
 
+/* ============================
+   タイトル
+============================ */
+
 h1 {
-  margin: 0;
+  margin: 10px 0 5px;
   font-size: 32px;
-  line-height: 1.5;
+  line-height: 1.3;
 }
 
-.description {
-  margin: 20px 0 30px;
-  line-height: 1.8;
-}
+/* ============================
+   ROUND
+============================ */
 
-.progress {
-  margin-bottom: 25px;
+.round {
+  margin: 10px 0;
+  font-size: 20px;
   font-weight: bold;
 }
 
-.battle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+/* ============================
+   メッセージ
+============================ */
+
+.message {
+  min-height: 30px;
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
 }
+
+/* ============================
+   左右の選択肢
+============================ */
+
+.choices {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+  width: 100%;
+}
+
+/* ============================
+   VS
+============================ */
+
+.vs {
+  align-self: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+/* ============================
+   選択カード
+============================ */
 
 .choice {
-  width: 40%;
-  max-width: 350px;
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
+  width: 100%;
+  min-width: 0;
+  min-height: 500px;
 
-.post-box {
-  min-height: 400px;
-  padding: 30px 20px;
-  border: 2px solid #ddd;
-  border-radius: 18px;
+  padding: 12px;
+
+  border: 3px solid #f4c542;
+  border-radius: 20px;
+
   background: white;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  cursor: pointer;
 
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.choice:hover .post-box {
-  transform: translateY(-5px);
+.choice:hover {
+  transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.post-box p {
-  font-size: 24px;
+.choice:active {
+  transform: scale(0.98);
+}
+
+/* ============================
+   X投稿
+============================ */
+
+.post-box {
+  width: 100%;
+  min-height: 450px;
+
+  overflow: visible;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 自撮り名 */
+.post-box > p {
+  margin: 5px 0 10px;
+  font-size: 16px;
   font-weight: bold;
 }
 
-.post-box span {
-  color: #888;
+/*
+  X公式埋め込みがカードの幅に合わせて
+  表示されるようにする
+*/
+
+.post-box blockquote.twitter-tweet {
+  width: 100% !important;
+  max-width: 550px !important;
+
+  margin: 0 auto !important;
 }
 
-.vs {
-  font-size: 24px;
-  font-weight: bold;
+/* Xが生成するiframe */
+.post-box iframe {
+  max-width: 100% !important;
 }
 
-#message {
-  margin-top: 30px;
-  font-weight: bold;
-}
+/* ============================
+   スマホ
+============================ */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
-  .container {
-    padding: 30px 0;
+  body {
+    padding: 10px;
   }
 
   h1 {
-    font-size: 25px;
+    font-size: 24px;
   }
 
-  .battle {
-    flex-direction: column;
+  .round {
+    font-size: 18px;
   }
 
-  .choice {
-    width: 90%;
-  }
-
-  .post-box {
-    min-height: 250px;
+  .choices {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .vs {
-    margin: 5px 0;
+    order: 2;
+    padding: 0;
+    font-size: 20px;
   }
-}
 
-.post-box {
-  overflow: hidden;
-}
+  #choiceA {
+    order: 1;
+  }
 
-.post-box .twitter-tweet {
-  margin: 0 auto !important;
-}
+  #choiceB {
+    order: 3;
+  }
 
-/* X投稿を表示するカード */
-.post-box {
-  width: 100%;
-  min-height: 500px;
-  overflow: visible;
-}
+  .choice {
+    min-height: 450px;
+  }
 
-/* X公式埋め込み */
-.post-box .twitter-tweet {
-  margin: 0 auto !important;
-}
-
-/* 対戦カード */
-.choice {
-  min-height: 550px;
-  height: auto;
-  overflow: visible;
+  .post-box {
+    min-height: 400px;
+  }
 }
