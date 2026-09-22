@@ -16,6 +16,7 @@ body {
     sans-serif;
 }
 
+
 /* ============================
    ゲーム全体
 ============================ */
@@ -27,19 +28,19 @@ body {
   text-align: center;
 }
 
+
 /* ============================
    タイトル
 ============================ */
 
 h1 {
   margin: 10px 0 5px;
-
   font-size: 32px;
   line-height: 1.3;
   font-weight: 800;
-
   color: #333;
 }
+
 
 /* ============================
    ROUND
@@ -47,19 +48,27 @@ h1 {
 
 .round {
   display: inline-block;
-
   margin: 12px 0 8px;
   padding: 5px 18px;
-
   border-radius: 999px;
-
   background: #f4c542;
-
   color: #333;
-
   font-size: 18px;
   font-weight: bold;
 }
+
+
+/* ============================
+   残り枚数
+============================ */
+
+.remaining {
+  margin: 4px 0 8px;
+  font-size: 15px;
+  color: #777;
+  font-weight: bold;
+}
+
 
 /* ============================
    メッセージ
@@ -67,12 +76,11 @@ h1 {
 
 .message {
   min-height: 30px;
-
   margin: 8px 0 18px;
-
   font-size: 18px;
   font-weight: bold;
 }
+
 
 /* ============================
    選択肢
@@ -81,13 +89,11 @@ h1 {
 .choices {
   display: flex;
   flex-direction: column;
-
   align-items: center;
-
   gap: 12px;
-
   width: 100%;
 }
+
 
 /* ============================
    VS
@@ -96,11 +102,10 @@ h1 {
 .vs {
   font-size: 24px;
   font-weight: 800;
-
   padding: 2px 0;
-
   color: #555;
 }
+
 
 /* ============================
    選択カード
@@ -117,7 +122,7 @@ h1 {
   border: 3px solid #f4c542;
   border-radius: 20px;
 
-  background: #fff;
+  background: white;
 
   cursor: pointer;
 
@@ -128,19 +133,23 @@ h1 {
     border-color 0.2s ease;
 }
 
+
 .choice:hover {
   transform: translateY(-4px);
 
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.12);
+    0 8px 20px
+    rgba(0, 0, 0, 0.12);
 }
+
 
 .choice:active {
   transform: scale(0.98);
 }
 
+
 /* ============================
-   選択したカード
+   選んだカード
 ============================ */
 
 .choice.selected {
@@ -149,11 +158,15 @@ h1 {
   border-color: #e5ae00;
 
   box-shadow:
-    0 0 0 4px rgba(244, 197, 66, 0.25),
-    0 10px 30px rgba(244, 197, 66, 0.35);
+    0 0 0 4px
+    rgba(244, 197, 66, 0.25),
+
+    0 10px 30px
+    rgba(244, 197, 66, 0.35);
 
   transform: scale(1.02);
 }
+
 
 /* ============================
    X投稿
@@ -165,18 +178,21 @@ h1 {
   overflow: visible;
 
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
 }
 
-/* 自撮り名 */
 
 .post-box > p {
   margin: 5px 0 12px;
 
   font-size: 16px;
+
   font-weight: bold;
 }
+
 
 /* ============================
    X公式埋め込み
@@ -184,15 +200,19 @@ h1 {
 
 .post-box blockquote.twitter-tweet {
   width: 100% !important;
+
   max-width: 550px !important;
 
   margin: 0 auto !important;
 }
 
+
 .post-box iframe {
   width: 100% !important;
+
   max-width: 550px !important;
 }
+
 
 /* ============================
    優勝画面
@@ -204,13 +224,13 @@ h1 {
   font-size: 22px;
 }
 
+
 .winner-mode .message {
   margin-bottom: 18px;
 
   font-size: 20px;
 }
 
-/* 優勝カード */
 
 .winner-mode .choice {
   border-color: #e5ae00;
@@ -218,18 +238,26 @@ h1 {
   background: #fffdf2;
 
   box-shadow:
-    0 0 0 5px rgba(244, 197, 66, 0.2),
-    0 12px 30px rgba(244, 197, 66, 0.25);
+    0 0 0 5px
+    rgba(244, 197, 66, 0.2),
+
+    0 12px 30px
+    rgba(244, 197, 66, 0.25);
 }
 
-/* 優勝者名 */
+
+/* ============================
+   優勝者の名前
+============================ */
 
 .winner-name {
   margin: 5px 0 15px;
 
   font-size: 24px;
+
   font-weight: 800;
 }
+
 
 /* ============================
    もう一度遊ぶ
@@ -239,37 +267,46 @@ h1 {
   display: inline-block;
 
   margin-top: 22px;
+
   padding: 12px 28px;
 
   border: none;
+
   border-radius: 999px;
 
   background: #f4c542;
+
   color: #333;
 
   font-size: 17px;
+
   font-weight: bold;
 
   cursor: pointer;
 
   box-shadow:
-    0 5px 12px rgba(0, 0, 0, 0.12);
+    0 5px 12px
+    rgba(0, 0, 0, 0.12);
 
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
 }
 
+
 .restart-button:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 7px 16px rgba(0, 0, 0, 0.16);
+    0 7px 16px
+    rgba(0, 0, 0, 0.16);
 }
+
 
 .restart-button:active {
   transform: scale(0.96);
 }
+
 
 /* ============================
    スマホ
@@ -281,20 +318,32 @@ h1 {
     padding: 10px;
   }
 
+
   .game {
     max-width: 600px;
   }
+
 
   h1 {
     font-size: 24px;
   }
 
+
   .round {
     font-size: 17px;
 
     margin-top: 10px;
+
     padding: 4px 15px;
   }
+
+
+  .remaining {
+    font-size: 14px;
+
+    margin-bottom: 7px;
+  }
+
 
   .message {
     font-size: 16px;
@@ -302,24 +351,30 @@ h1 {
     margin-bottom: 14px;
   }
 
+
   .choices {
     gap: 8px;
   }
+
 
   .vs {
     font-size: 20px;
   }
 
+
   .choice {
     padding: 10px;
 
     border-width: 2px;
+
     border-radius: 16px;
   }
+
 
   .choice.selected {
     transform: scale(1.01);
   }
+
 
   .post-box > p {
     font-size: 15px;
@@ -327,25 +382,31 @@ h1 {
     margin: 4px 0 10px;
   }
 
+
   .post-box blockquote.twitter-tweet {
     max-width: 550px !important;
   }
+
 
   .winner-mode .round {
     font-size: 20px;
   }
 
+
   .winner-mode .message {
     font-size: 18px;
   }
 
+
   .winner-name {
     font-size: 21px;
   }
+
 
   .restart-button {
     font-size: 16px;
 
     padding: 11px 24px;
   }
-} 
+
+}
