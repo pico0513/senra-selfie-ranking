@@ -250,4 +250,4 @@ choiceA.addEventListener("click", () => {
 
 choiceB.addEventListener("click", () => {
   choose(currentB);
-});
+}); 
