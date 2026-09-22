@@ -100,17 +100,14 @@ const selfies = [
 ];
 
 // ==================================================
-// ランダムシャッフル
+// シャッフル
 // ==================================================
 
 function shuffle(array) {
-
   const result = [...array];
 
   for (let i = result.length - 1; i > 0; i--) {
-
-    const j =
-      Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(Math.random() * (i + 1));
 
     [result[i], result[j]] =
       [result[j], result[i]];
@@ -134,6 +131,8 @@ let roundNumber = 1;
 let currentA = null;
 let currentB = null;
 
+let gameFinished = false;
+
 // ==================================================
 // X投稿を表示
 // ==================================================
@@ -155,9 +154,7 @@ function showPost(button, selfie) {
     window.twttr &&
     window.twttr.widgets
   ) {
-
     window.twttr.widgets.load(box);
-
   }
 }
 
@@ -166,6 +163,12 @@ function showPost(button, selfie) {
 // ==================================================
 
 function startRound() {
+
+  // 1人ならゲーム終了
+  if (players.length === 1) {
+    finishGame(players[0]);
+    return;
+  }
 
   winners = [];
 
@@ -187,18 +190,17 @@ function startRound() {
 function showNextMatch() {
 
   // ------------------------------------------
-  // ラウンド終了
+  // このラウンドの対戦が全部終わった
   // ------------------------------------------
 
   if (matchIndex >= players.length) {
 
+    // 勝ち残りを次のラウンドへ
     players = winners;
 
-    // 優勝決定
+    // 1人になったら即終了
     if (players.length === 1) {
-
-      showWinner(players[0]);
-
+      finishGame(players[0]);
       return;
     }
 
@@ -211,7 +213,7 @@ function showNextMatch() {
   }
 
   // ------------------------------------------
-  // 奇数人数の場合
+  // 奇数人数なら最後の1人を不戦勝
   // ------------------------------------------
 
   if (
@@ -229,7 +231,7 @@ function showNextMatch() {
   }
 
   // ------------------------------------------
-  // 対戦相手
+  // 対戦セット
   // ------------------------------------------
 
   currentA =
@@ -255,12 +257,14 @@ function showNextMatch() {
 
 function choose(winner, selectedButton) {
 
-  // 二重クリック防止
+  // ゲーム終了後は何もしない
+  if (gameFinished) {
+    return;
+  }
 
+  // 二重クリック防止
   choiceA.disabled = true;
   choiceB.disabled = true;
-
-  // 選択したカードを強調
 
   selectedButton.classList.add("selected");
 
@@ -269,15 +273,9 @@ function choose(winner, selectedButton) {
 
   setTimeout(() => {
 
-    // 強調を解除
-
     selectedButton.classList.remove("selected");
 
-    // 勝者を保存
-
     winners.push(winner);
-
-    // 次の対戦
 
     matchIndex += 2;
 
@@ -293,19 +291,21 @@ function choose(winner, selectedButton) {
 }
 
 // ==================================================
-// 優勝画面
+// 優勝
 // ==================================================
 
-function showWinner(winner) {
+function finishGame(winner) {
+
+  gameFinished = true;
 
   currentA = winner;
   currentB = null;
 
   round.textContent =
-    "WINNER";
+    "👑 WINNER 👑";
 
   message.textContent =
-    `👑 ${winner.name} 👑`;
+    `${winner.name} が優勝！`;
 
   showPost(
     choiceA,
@@ -313,6 +313,8 @@ function showWinner(winner) {
   );
 
   choiceB.style.display = "none";
+
+  choiceA.disabled = false;
 }
 
 // ==================================================
@@ -323,13 +325,14 @@ choiceA.addEventListener(
   "click",
   () => {
 
-    if (currentA) {
-
+    if (
+      currentA &&
+      !gameFinished
+    ) {
       choose(
         currentA,
         choiceA
       );
-
     }
 
   }
@@ -339,13 +342,14 @@ choiceB.addEventListener(
   "click",
   () => {
 
-    if (currentB) {
-
+    if (
+      currentB &&
+      !gameFinished
+    ) {
       choose(
         currentB,
         choiceB
       );
-
     }
 
   }
