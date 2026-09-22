@@ -3,7 +3,6 @@ const choiceB = document.getElementById("choiceB");
 const message = document.getElementById("message");
 const round = document.getElementById("round");
 
-
 // ============================
 // 自撮りデータ
 // ============================
@@ -31,17 +30,14 @@ const selfies = [
   }
 ];
 
-
 // ============================
 // ランダムシャッフル
 // ============================
 
 function shuffle(array) {
-
   const result = [...array];
 
   for (let i = result.length - 1; i > 0; i--) {
-
     const j = Math.floor(Math.random() * (i + 1));
 
     [result[i], result[j]] =
@@ -51,27 +47,22 @@ function shuffle(array) {
   return result;
 }
 
-
-// ゲーム開始時にシャッフル
-let randomizedSelfies = shuffle(selfies);
-
-
 // ============================
-// 現在の対戦
+// ゲーム開始
 // ============================
 
-let currentIndex = 0;
+const randomizedSelfies = shuffle(selfies);
 
-let currentA = randomizedSelfies[currentIndex];
-let currentB = randomizedSelfies[currentIndex + 1];
+let currentIndex = 2;
 
+let currentA = randomizedSelfies[0];
+let currentB = randomizedSelfies[1];
 
 // ============================
-// X投稿表示
+// X投稿を表示
 // ============================
 
 function showPost(button, selfie) {
-
   const box = button.querySelector(".post-box");
 
   box.innerHTML = `
@@ -87,14 +78,12 @@ function showPost(button, selfie) {
   }
 }
 
-
-// 最初の対戦
+// 最初の2枚を表示
 showPost(choiceA, currentA);
 showPost(choiceB, currentB);
 
-
 // ============================
-// 勝敗処理
+// 選択処理
 // ============================
 
 function choose(winner) {
@@ -106,26 +95,27 @@ function choose(winner) {
 
     message.textContent = "";
 
-    currentIndex += 2;
+    // 次の自撮りがあるか確認
+    if (currentIndex < randomizedSelfies.length) {
 
-    // 次の対戦相手
-    const nextSelfie =
-      randomizedSelfies[currentIndex];
+      const nextSelfie =
+        randomizedSelfies[currentIndex];
 
-    if (nextSelfie) {
-
+      // 勝者 VS 次の自撮り
       currentA = winner;
       currentB = nextSelfie;
 
+      currentIndex++;
+
       round.textContent =
-        `ROUND ${currentIndex / 2 + 1}`;
+        `ROUND ${currentIndex - 1}`;
 
       showPost(choiceA, currentA);
       showPost(choiceB, currentB);
 
     } else {
 
-      // 優勝！
+      // 全員登場したら優勝
       round.textContent = "WINNER";
 
       message.textContent =
@@ -135,9 +125,8 @@ function choose(winner) {
   }, 700);
 }
 
-
 // ============================
-// ボタン
+// ボタンを押したとき
 // ============================
 
 choiceA.addEventListener("click", () => {
