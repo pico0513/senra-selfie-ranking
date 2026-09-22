@@ -119,17 +119,11 @@ function shuffle(array) {
 ========================= */
 
 let players = shuffle(selfies);
-
 let winners = [];
-
 let matchIndex = 0;
-
 let roundNumber = 1;
-
 let currentA = null;
-
 let currentB = null;
-
 let gameFinished = false;
 
 
@@ -195,14 +189,12 @@ function showRoundAnimation() {
     "round-change"
   );
 
-  // アニメーションを一度リセット
   void round.offsetWidth;
 
   round.classList.add(
     "round-change"
   );
 
-  // アニメーション終了後にクラスを削除
   setTimeout(() => {
 
     round.classList.remove(
@@ -210,6 +202,41 @@ function showRoundAnimation() {
     );
 
   }, 800);
+}
+
+
+/* =========================
+   WIN演出
+========================= */
+
+function showWinAnimation(selectedButton) {
+
+  selectedButton.classList.add(
+    "win-animation"
+  );
+
+  const winLabel =
+    document.createElement("div");
+
+  winLabel.className =
+    "win-label";
+
+  winLabel.textContent =
+    "✨ WIN! ✨";
+
+  selectedButton.appendChild(
+    winLabel
+  );
+
+  setTimeout(() => {
+
+    selectedButton.classList.remove(
+      "win-animation"
+    );
+
+    winLabel.remove();
+
+  }, 900);
 }
 
 
@@ -238,14 +265,8 @@ function startRound(isNewRound = false) {
 
   choiceB.style.display = "";
 
-  /*
-   * 新しいROUNDなら
-   * ROUND表示をアニメーション
-   */
   if (isNewRound) {
-
     showRoundAnimation();
-
   }
 
   showNextMatch();
@@ -271,19 +292,12 @@ function showNextMatch() {
 
     roundNumber++;
 
-    /*
-     * 次のROUNDへ
-     */
     startRound(true);
 
     return;
   }
 
 
-  /*
-   * 奇数の場合、
-   * 最後の1人はそのまま次ROUNDへ
-   */
   if (
     matchIndex === players.length - 1 &&
     players.length % 2 === 1
@@ -335,11 +349,14 @@ function choose(
   if (gameFinished) return;
 
   choiceA.disabled = true;
-
   choiceB.disabled = true;
 
   selectedButton.classList.add(
     "selected"
+  );
+
+  showWinAnimation(
+    selectedButton
   );
 
   message.textContent =
@@ -359,13 +376,11 @@ function choose(
     matchIndex += 2;
 
     choiceA.disabled = false;
-
     choiceB.disabled = false;
 
     updateProgress();
 
     showNextMatch();
-
 
     if (!gameFinished) {
 
@@ -387,7 +402,6 @@ function finishGame(winner) {
   gameFinished = true;
 
   currentA = winner;
-
   currentB = null;
 
   game.classList.add(
