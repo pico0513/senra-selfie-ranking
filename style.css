@@ -48,25 +48,142 @@ h1 {
 
 .round {
   display: inline-block;
+
   margin: 12px 0 8px;
   padding: 5px 18px;
+
   border-radius: 999px;
+
   background: #f4c542;
   color: #333;
+
   font-size: 18px;
   font-weight: bold;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 
 /* ============================
-   残り枚数
+   ROUND切り替え演出
 ============================ */
 
-.remaining {
-  margin: 4px 0 8px;
-  font-size: 15px;
-  color: #777;
+.round.round-change {
+  animation: roundChange 0.8s ease;
+}
+
+@keyframes roundChange {
+
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+
+  30% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+
+  60% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* ============================
+   ゲーム進行ゲージ
+============================ */
+
+.progress-area {
+  width: 100%;
+  max-width: 500px;
+
+  margin: 8px auto 18px;
+}
+
+
+.progress-text {
+  margin-bottom: 7px;
+
+  font-size: 14px;
+
   font-weight: bold;
+
+  color: #777;
+}
+
+
+.progress-bar {
+  position: relative;
+
+  width: 100%;
+  height: 14px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #eee5c8;
+
+  box-shadow:
+    inset 0 1px 3px
+    rgba(0, 0, 0, 0.08);
+}
+
+
+.progress-fill {
+  position: relative;
+
+  width: 0%;
+  height: 100%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f1c232,
+      #f4c542,
+      #ffd966
+    );
+
+  box-shadow:
+    0 0 8px
+    rgba(244, 197, 66, 0.55);
+
+  transition:
+    width 0.6s ease;
+}
+
+
+/* ゲージ先端の光 */
+
+.progress-fill::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 35px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.65)
+    );
+
+  border-radius: 999px;
 }
 
 
@@ -76,8 +193,11 @@ h1 {
 
 .message {
   min-height: 30px;
+
   margin: 8px 0 18px;
+
   font-size: 18px;
+
   font-weight: bold;
 }
 
@@ -88,9 +208,13 @@ h1 {
 
 .choices {
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   gap: 12px;
+
   width: 100%;
 }
 
@@ -101,8 +225,11 @@ h1 {
 
 .vs {
   font-size: 24px;
+
   font-weight: 800;
+
   padding: 2px 0;
+
   color: #555;
 }
 
@@ -120,6 +247,7 @@ h1 {
   padding: 14px;
 
   border: 3px solid #f4c542;
+
   border-radius: 20px;
 
   background: white;
@@ -338,10 +466,25 @@ h1 {
   }
 
 
-  .remaining {
-    font-size: 14px;
+  .round.round-change {
+    animation-duration: 0.7s;
+  }
 
-    margin-bottom: 7px;
+
+  .progress-area {
+    max-width: 500px;
+
+    margin-bottom: 14px;
+  }
+
+
+  .progress-text {
+    font-size: 13px;
+  }
+
+
+  .progress-bar {
+    height: 12px;
   }
 
 
@@ -409,71 +552,4 @@ h1 {
     padding: 11px 24px;
   }
 
-}
-
-.progress-area {
-  width: 100%;
-  max-width: 500px;
-  margin: 8px auto 18px;
-}
-
-.progress-text {
-  margin-bottom: 7px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #777;
-}
-
-.progress-bar {
-  position: relative;
-  width: 100%;
-  height: 14px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #eee5c8;
-  box-shadow:
-    inset 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.progress-fill {
-  position: relative;
-  width: 0%;
-  height: 100%;
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #f1c232,
-      #f4c542,
-      #ffd966
-    );
-
-  box-shadow:
-    0 0 8px
-    rgba(244, 197, 66, 0.55);
-
-  transition:
-    width 0.6s ease;
-}
-
-/* ゲージの先端の光 */
-.progress-fill::after {
-  content: "";
-  position: absolute;
-
-  top: 0;
-  right: 0;
-
-  width: 35px;
-  height: 100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.65)
-    );
-
-  border-radius: 999px;
 }
