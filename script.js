@@ -186,6 +186,18 @@ let gameFinished = false;
 
 
 // ==================================================
+// 残り枚数を更新
+// ==================================================
+
+function updateRemaining() {
+
+  remaining.textContent =
+    `残り ${players.length} 枚`;
+
+}
+
+
+// ==================================================
 // X投稿を表示
 // ==================================================
 
@@ -237,19 +249,12 @@ function startRound() {
   matchIndex = 0;
 
 
-  // ROUND表示
-
   round.textContent =
     `ROUND ${roundNumber}`;
 
 
-  // 残り枚数
+  updateRemaining();
 
-  remaining.textContent =
-    `残り ${players.length} 枚`;
-
-
-  // 質問
 
   message.textContent =
     "どっちの自撮りが好き？";
@@ -296,7 +301,6 @@ function showNextMatch() {
 
 
   // 奇数人数の場合
-
   if (
     matchIndex === players.length - 1 &&
     players.length % 2 === 1
@@ -308,14 +312,13 @@ function showNextMatch() {
 
     matchIndex++;
 
+
     showNextMatch();
 
     return;
 
   }
 
-
-  // 対戦相手
 
   currentA =
     players[matchIndex];
@@ -373,6 +376,17 @@ function choose(
     `✨ ${winner.name} ✨`;
 
 
+  // ★ ここで残り枚数を1枚減らす
+
+  players =
+    players.filter(
+      selfie => selfie.id !== winner.id
+    );
+
+
+  updateRemaining();
+
+
   setTimeout(() => {
 
     selectedButton.classList.remove(
@@ -427,8 +441,6 @@ function finishGame(winner) {
   currentB = null;
 
 
-  // 優勝用クラス
-
   game.classList.add(
     "winner-mode"
   );
@@ -446,15 +458,11 @@ function finishGame(winner) {
     "あなたが選んだ自撮りは……";
 
 
-  // 優勝者を表示
-
   showPost(
     choiceA,
     winner
   );
 
-
-  // 名前を追加
 
   const box =
     choiceA.querySelector(
@@ -463,7 +471,9 @@ function finishGame(winner) {
 
 
   const name =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
 
   name.className =
@@ -480,8 +490,6 @@ function finishGame(winner) {
   );
 
 
-  // VSと右側を非表示
-
   choiceB.style.display =
     "none";
 
@@ -491,8 +499,6 @@ function finishGame(winner) {
   ).style.display =
     "none";
 
-
-  // もう一度遊ぶボタン
 
   const restartButton =
     document.createElement(
@@ -531,8 +537,6 @@ function finishGame(winner) {
 
 function restartGame() {
 
-  // 状態をリセット
-
   players =
     shuffle(selfies);
 
@@ -549,28 +553,20 @@ function restartGame() {
   gameFinished = false;
 
 
-  // 優勝画面を解除
-
   game.classList.remove(
     "winner-mode"
   );
 
 
-  // 右側を表示
-
   choiceB.style.display =
     "";
 
-
-  // VSを表示
 
   document.querySelector(
     ".vs"
   ).style.display =
     "";
 
-
-  // 再スタートボタンを削除
 
   const restartButton =
     document.querySelector(
@@ -584,8 +580,6 @@ function restartGame() {
 
   }
 
-
-  // ゲーム開始
 
   startRound();
 
