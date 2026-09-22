@@ -163,8 +163,6 @@ h1 {
 }
 
 
-/* ゲージ先端の光 */
-
 .progress-fill::after {
   content: "";
 
@@ -239,6 +237,8 @@ h1 {
 ============================ */
 
 .choice {
+  position: relative;
+
   display: block;
 
   width: 100%;
@@ -293,6 +293,120 @@ h1 {
     rgba(244, 197, 66, 0.35);
 
   transform: scale(1.02);
+}
+
+
+/* ============================
+   WIN演出
+============================ */
+
+.choice.win-animation {
+  animation: winnerPop 0.9s ease;
+  z-index: 5;
+}
+
+
+@keyframes winnerPop {
+
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.06);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+
+  75% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* ============================
+   WIN文字
+============================ */
+
+.win-label {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  z-index: 10;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.5);
+
+  padding: 8px 22px;
+
+  border-radius: 999px;
+
+  background: #f4c542;
+
+  color: #333;
+
+  font-size: 28px;
+
+  font-weight: 900;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 5px 20px
+    rgba(0, 0, 0, 0.2);
+
+  pointer-events: none;
+
+  animation: winLabel 0.9s ease forwards;
+}
+
+
+@keyframes winLabel {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.5);
+  }
+
+  25% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.15);
+  }
+
+  45% {
+    transform:
+      translate(-50%, -50%)
+      scale(0.95);
+  }
+
+  70% {
+    transform:
+      translate(-50%, -50%)
+      scale(1.05);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
 }
 
 
@@ -516,6 +630,13 @@ h1 {
 
   .choice.selected {
     transform: scale(1.01);
+  }
+
+
+  .win-label {
+    font-size: 23px;
+
+    padding: 7px 18px;
   }
 
 
