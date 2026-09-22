@@ -122,3 +122,22 @@ h1 {
 .post-box .twitter-tweet {
   margin: 0 auto !important;
 }
+
+/* X投稿を表示するカード */
+.post-box {
+  width: 100%;
+  min-height: 500px;
+  overflow: visible;
+}
+
+/* X公式埋め込み */
+.post-box .twitter-tweet {
+  margin: 0 auto !important;
+}
+
+/* 対戦カード */
+.choice {
+  min-height: 550px;
+  height: auto;
+  overflow: visible;
+}
