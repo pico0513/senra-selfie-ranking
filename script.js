@@ -455,13 +455,12 @@ function choose(
 
 
 /* =========================
-   優勝
+   優勝画面
 ========================= */
 
 function finishGame(winner) {
 
   gameFinished = true;
-
 
   currentA = winner;
 
@@ -478,7 +477,7 @@ function finishGame(winner) {
 
 
   message.textContent =
-    "あなたが選んだ自撮りは……";
+    "あなたのNo.1自撮りは……";
 
 
   progressText.textContent =
@@ -530,10 +529,21 @@ function finishGame(winner) {
     "none";
 
 
+  /* =========================
+     結果ボタンエリア
+  ========================= */
+
+  const resultArea =
+    document.createElement("div");
+
+  resultArea.className =
+    "result-buttons";
+
+
+  /* もう一度遊ぶ */
+
   const restartButton =
-    document.createElement(
-      "button"
-    );
+    document.createElement("button");
 
 
   restartButton.className =
@@ -554,8 +564,54 @@ function finishGame(winner) {
   );
 
 
-  game.appendChild(
+  /* Xでシェア */
+
+  const shareButton =
+    document.createElement("button");
+
+
+  shareButton.className =
+    "share-button";
+
+
+  shareButton.type =
+    "button";
+
+
+  shareButton.textContent =
+    "𝕏 結果をシェア";
+
+
+  shareButton.addEventListener(
+    "click",
+    () => {
+
+      const text =
+        `センラさん自撮り選手権、私のNo.1は「${winner.name}」でした📸✨`;
+
+      const shareUrl =
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+
+      window.open(
+        shareUrl,
+        "_blank"
+      );
+
+    }
+  );
+
+
+  resultArea.appendChild(
     restartButton
+  );
+
+  resultArea.appendChild(
+    shareButton
+  );
+
+
+  game.appendChild(
+    resultArea
   );
 }
 
@@ -593,18 +649,19 @@ function restartGame() {
 
 
   document.querySelector(".vs")
-    .style.display = "";
+    .style.display =
+    "";
 
 
-  const restartButton =
+  const resultArea =
     document.querySelector(
-      ".restart-button"
+      ".result-buttons"
     );
 
 
-  if (restartButton) {
+  if (resultArea) {
 
-    restartButton.remove();
+    resultArea.remove();
 
   }
 
